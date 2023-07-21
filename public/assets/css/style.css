@@ -11,6 +11,8 @@ body {
 
 .sidebar {
     height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 #content-wrapper {
@@ -30,4 +32,10 @@ body {
 
 .sidebar-dark .nav-item .nav-link .material-symbols-outlined {
     font-size: 1.35rem;
+}
+
+@media (min-width: 768px) {
+    .sidebar {
+        width: 280px !important;
+    }
 }
