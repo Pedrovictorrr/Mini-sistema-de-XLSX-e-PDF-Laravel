@@ -22,9 +22,7 @@
     <link href="/assets/css/sb-admin-2.min.css" rel="stylesheet">
 
     <link href="/assets/css/style.css" rel="stylesheet">
-
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-
+    
 </head>
 
 <body class="bg-white">
