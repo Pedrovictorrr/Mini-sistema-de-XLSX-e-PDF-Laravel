@@ -22,6 +22,14 @@ Route::get('/home', function () {
     return view('layout');
 })->middleware(['auth', 'verified'])->name('layout');
 
+Route::get('/criar-suporte-usuario', function () {
+    return view('criar-ticket');
+})->middleware(['auth', 'verified'])->name('criar-ticket');
+
+Route::get('/suporte-usuario', function () {
+    return view('suporte-usuario');
+})->middleware(['auth', 'verified'])->name('suporte');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

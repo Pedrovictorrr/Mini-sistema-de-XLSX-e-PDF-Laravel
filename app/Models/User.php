@@ -12,6 +12,19 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    // Caso ocorra erro ao criar a factory, descomentar;
+    // /**
+    //  * Convert a DateTime to a storable string.
+    //  *
+    //  * @param  \DateTime|int  $value
+    //  * @return string
+    //  */
+    // public function fromDateTime($value)
+    // {
+    //     return empty($value) ? $value : $this->asDateTime($value)->format('d-M-Y h:i:s A');
+    // }
+
+
     /**
      * The attributes that are mass assignable.
      *
