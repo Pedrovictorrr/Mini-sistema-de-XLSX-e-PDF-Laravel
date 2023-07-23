@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TicketController;
+use App\Http\Controllers\FileController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,16 +28,16 @@ Route::get('/criar-suporte-usuario', function () {
     return view('criar-ticket');
 })->middleware(['auth', 'verified'])->name('criar-ticket');
 
-Route::post('/tickets', [TicketController::class, 'store'])->middleware(['auth', 'verified']);
+Route::resource('/tickets', TicketController::class)->middleware(['auth', 'verified'])
+    ->except('delete', 'destroy');
+
+Route::delete('/tickets/{ticketId}/files/{fileName}', [FileController::class, 'destroy'])->middleware(['auth', 'verified']);
+
+Route::get('/usuarios', [UserController::class, 'index'])->middleware(['auth', 'verified']);
+
 
 Route::get('/suporte-usuario', function () {
     return view('suporte-usuario');
 })->middleware(['auth', 'verified'])->name('suporte');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
 
 require __DIR__.'/auth.php';

@@ -10,6 +10,10 @@ class Ticket extends Model
     use HasFactory;
     protected $fillable = ['assunto', 'mensagem', 'user_id', 'responsavel_id', 'situacao_id', 'modulo_id', 'anexo'];
 
+    protected $casts = [
+        'ultima_resposta' => 'datetime:d/m/Y',
+        'created_at' => 'datetime:d/m/Y',
+    ];
 
     public function situacao()
     {
