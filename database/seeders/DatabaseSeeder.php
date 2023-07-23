@@ -18,11 +18,14 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'cpf' => '11111111111',
-        //     'email' => 'test@example.com',
-        // ]);
+        \App\Models\User::factory()->create([
+            'name' => 'Test User',
+            'cpf' => '9999999999',
+            'email' => 'test@example.com',
+            'password'=>bcrypt('123456'),
+        ]);
+
+        
         // $this->call(DiarioContabilidadeSeed::class);
         // $this->call(MovimentoContabilMensalSeed::class);
         // $this->call(PlanoContabilSeed::class);
