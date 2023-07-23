@@ -3,18 +3,19 @@
 @section('content')
     <div class="container">
         <h2>SUPORTE AO USUARIO</h2>
-        <form id="supportForm">
+        <form id="supportForm" action="/tickets" method="post" enctype="multipart/form-data">
+            @csrf
             <div class="d-flex">
                 <label>De:</label>
                 <p class="ml-2">USUARIO DO SISTEMA</p>
             </div>
             <div class="form-group">
                 <label for="assunto">Assunto:</label>
-                <input type="text" class="form-control" id="assunto" value="Fornecedor Origem: t2345 - FORNECEDOR">
+                <input type="text" class="form-control" name="assunto" id="assunto" value="Fornecedor Origem: t2345 - FORNECEDOR">
             </div>
             <div class="form-group">
                 <label for="mensagem">Mensagem:</label>
-                <textarea class="form-control" rows="5" id="mensagem"></textarea>
+                <textarea class="form-control" name="mensagem" rows="5" id="mensagem"></textarea>
             </div>
             <label for="anexo">Anexos:</label>
             <div class="col-12 pl-0">
@@ -24,7 +25,7 @@
                 <ul id="fileList" class="col-6"></ul>
             </div>
 
-            <input type="file" id="file" style="display: none;">
+            <input type="file" name="anexo" id="file" style="display: none;">
             <button type="submit" class="btn btn-success">Enviar</button>
             <button type="reset" id="resetBtn" class="btn btn-danger">Limpar</button>
         </form>

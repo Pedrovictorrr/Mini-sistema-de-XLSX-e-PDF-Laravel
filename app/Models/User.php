@@ -24,6 +24,15 @@ class User extends Authenticatable
     //     return empty($value) ? $value : $this->asDateTime($value)->format('d-M-Y h:i:s A');
     // }
 
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class);
+    }
+    
+    public function ticketsResponsavel()
+    {
+        return $this->hasMany(Ticket::class, 'responsavel_id');
+    }
 
     /**
      * The attributes that are mass assignable.
