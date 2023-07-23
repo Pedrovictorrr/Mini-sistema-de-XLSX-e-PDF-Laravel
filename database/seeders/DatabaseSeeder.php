@@ -3,6 +3,10 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\DiarioContabilidade;
+use App\Models\MovimentoContabilMensal;
+use App\Models\PlanoContabil;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -19,11 +23,9 @@ class DatabaseSeeder extends Seeder
         //     'cpf' => '11111111111',
         //     'email' => 'test@example.com',
         // ]);
-        \App\Models\User::create([
-            'name' => 'Test_User1',
-            'cpf' => '99999999999',
-            'email' => 'testeteste3@example.com',
-            'password' => bcrypt('123456'),
-        ]);
+        // $this->call(DiarioContabilidadeSeed::class);
+        // $this->call(MovimentoContabilMensalSeed::class);
+        // $this->call(PlanoContabilSeed::class);
+        // $this->call(RealizacaoMensalSeed::class);
     }
 }

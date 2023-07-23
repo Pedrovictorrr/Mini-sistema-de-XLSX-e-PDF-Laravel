@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('Exportador_Contabil', function (Blueprint $table) {
-            $table->unsignedBigInteger('idPessoa')->primary();
+        Schema::create('plano_contabils', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('idPessoa');
             $table->char('cdClasse', 9);
             $table->char('cdGrupo', 9);
             $table->char('cdSubGrupo', 9);
@@ -41,6 +42,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('Exportador_Contabil');
+        Schema::dropIfExists('plano_contabils');
     }
 };
