@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/exportador-contabil',[ExportadorController::class, 'index'])->name('Exportador.index');
 });
 
+Route::get('users/export', [ExportadorController::class, 'export']);
 
 
 require __DIR__.'/auth.php';
