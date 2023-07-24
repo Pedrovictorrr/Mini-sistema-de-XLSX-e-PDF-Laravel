@@ -4,62 +4,63 @@
     <div class="container">
         <h2>SUPORTE AO USUARIO</h2>
         <a class="btn btn-primary" href="{{ route('criar-ticket') }}">+ NOVO</a>
+        <form action="" class="searchForm">
+            <div class="mb-3 d-flex align-items-center col-12">
+                <label for="id" class="form-label col-2">ID:</label>
+                <input type="text" class="form-control ml-2 col-9" id="id" name="id">
+            </div>
+            <div class="mb-3 d-flex align-items-center col-12">
+                <label for="dateBegin" class="form-label col-2">Data:</label>
+                <input type="date" class="form-control ml-2 form-date" id="dateBegin" name="dateBegin">
+                <label for="dateEnd" class="form-label ml-2">Até:</label>
+                <input type="date" class="form-control ml-2 form-date" id="dateEnd" name="dateEnd">
+            </div>
+            <div class="mb-3 d-flex align-items-center col-12">
+                <label for="begin" class="form-label col-2 form-input-date">Data da Resposta:</label>
+                <input type="date" class="form-control ml-2 form-date" id="begin" name="begin">
+                <label for="end" class="form-label ml-2">Até:</label>
+                <input type="date" class="form-control ml-2 form-date" id="end" name="end">
+            </div>
+            <div class="mb-3 d-flex align-items-center col-12">
+                <label class="form-label col-2" for="modulo">Modulo:</label>
+                <select class="form-control ml-2 form-select" id="modulo" name="modulo">
+                    <option value=""></option>
+                    <option value="Contabilidade">Contabilidade</option>
+                    <option value="Compras">Compras</option>
+                    <option value="Planejamento">Planejamento</option>
+                    <option value="Fornecedor">Fornecedor</option>
+                </select><br><br>
+            </div>
+            <div class="mb-3 d-flex align-items-center  col-12">
+                <label class="form-label col-2" for="usuario">Usuário Origem:</label>
+                <select class="form-control ml-2 form-select" id="usuario" name="usuario">
+                </select>
+            </div>
 
-        <div class="mb-3 d-flex align-items-center col-12">
-            <label for="id" class="form-label col-2">ID:</label>
-            <input type="text" class="form-control ml-2 col-9" id="id" name="id">
-        </div>
-        <div class="mb-3 d-flex align-items-center col-12">
-            <label for="dateBegin" class="form-label col-2">Data:</label>
-            <input type="date" class="form-control ml-2 form-date" id="dateBegin" name="dateBegin">
-            <label for="dateEnd" class="form-label ml-2">Até:</label>
-            <input type="date" class="form-control ml-2 form-date" id="dateEnd" name="dateEnd">
-        </div>
-        <div class="mb-3 d-flex align-items-center col-12">
-            <label for="begin" class="form-label col-2 form-input-date">Data da Resposta:</label>
-            <input type="date" class="form-control ml-2 form-date" id="begin" name="begin">
-            <label for="end" class="form-label ml-2">Até:</label>
-            <input type="date" class="form-control ml-2 form-date" id="end" name="end">
-        </div>
-        <div class="mb-3 d-flex align-items-center col-12">
-            <label class="form-label col-2" for="modulo">Modulo:</label>
-            <select class="form-control ml-2 form-select" id="modulo" name="modulo">
-                <option value=""></option>
-                <option value="Contabilidade">Contabilidade</option>
-                <option value="Compras">Compras</option>
-                <option value="Planejamento">Planejamento</option>
-                <option value="Fornecedor">Fornecedor</option>
-            </select><br><br>
-        </div>
-        <div class="mb-3 d-flex align-items-center  col-12">
-            <label class="form-label col-2" for="usuario">Usuário Origem:</label>
-            <select class="form-control ml-2 form-select" id="usuario" name="usuario">
-            </select>
-        </div>
+            <div class="mb-3 d-flex align-items-center  col-12">
+                <label class="form-label col-2" for="responsavel">Responsável:</label>
+                <select class="form-control ml-2 form-select" id="responsavel" name="responsavel">
+                </select>
+            </div>
 
-        <div class="mb-3 d-flex align-items-center  col-12">
-            <label class="form-label col-2" for="responsavel">Responsável:</label>
-            <select class="form-control ml-2 form-select" id="responsavel" name="responsavel">
-            </select>
-        </div>
+            <div class="mb-3 d-flex align-items-center col-12">
+                <label for="assunto" class="form-label col-2">Assunto:</label>
+                <input type="text" class="form-control col-9 ml-2" id="assunto" name="assunto">
+            </div>
 
-        <div class="mb-3 d-flex align-items-center col-12">
-            <label for="assunto" class="form-label col-2">Assunto:</label>
-            <input type="text" class="form-control col-9 ml-2" id="assunto" name="assunto">
-        </div>
+            <div class="mb-3 d-flex align-items-center">
+                <input type="radio" value="0" id="kind" name="kind">
+                <label for="search" class="form-check-label ml-2">Aberto</label>
+            </div>
 
-        <div class="mb-3 d-flex align-items-center">
-            <input type="radio" value="0" id="kind" name="kind">
-            <label for="search" class="form-check-label ml-2">Aberto</label>
-        </div>
+            <div class="mb-3 d-flex align-items-center">
+                <input type="radio" value="1" id="kind" name="kind">
+                <label for="kind" class="form-check-label ml-2">Concluido</label>
+            </div>
 
-        <div class="mb-3 d-flex align-items-center">
-            <input type="radio" value="1" id="kind" name="kind">
-            <label for="kind" class="form-check-label ml-2">Concluido</label>
-        </div>
-
-        <button type="submit" class="btn btn-success">Pesquisar</button>
-        <button type="reset" id="resetBtn" class="btn btn-danger">Limpar</button>
+            <button type="button" id="actionSearch" class="btn btn-success">Pesquisar</button>
+            <button type="reset" id="resetBtn" class="btn btn-danger">Limpar</button>
+        </form>
 
         <div class="card shadow mb-4 mt-4">
             <div class="card-body">
@@ -176,9 +177,11 @@
                             $('#chat').empty();
 
                             $.each(ticket.mensagens, function(index, mensagem) {
-                                var messageInfoElement = $('<div>').text(mensagem.created_at + ' - ' + mensagem.user.name);
+                                var messageInfoElement = $('<div>').text(mensagem.created_at + ' - ' +
+                                    mensagem.user.name);
                                 var messageTextElement = $('<p>').text(mensagem.mensagem);
-                                var messageElement = $('<div>').append(messageInfoElement, messageTextElement);
+                                var messageElement = $('<div>').append(messageInfoElement,
+                                    messageTextElement);
                                 $('#chat').append(messageElement);
                             });
 
@@ -248,7 +251,7 @@
         }
 
         $('input, select').on('change', function() {
-            filterData();
+            // filterData();
         });
 
         $(document).ready(function() {
@@ -258,8 +261,18 @@
             var fileInputModal = $('#fileModal');
             var fileList = $('#fileList');
             var files = [];
+            var resetButton = $('#resetBtn');
 
             fetchTickets();
+
+            resetButton.on('click', function() {
+                $(':input', '#myform')
+                .not(':button, :submit, :reset, :hidden')
+                .val('')
+                .prop('checked', false)
+                .prop('selected', false);
+                fetchTickets();
+            });
 
             $.ajax({
                 url: '/usuarios',
@@ -367,6 +380,16 @@
                     fileList.append(fileItem);
                 }
             }
+
+            $('#searchForm').submit(function(e) {
+                e.preventDefault();
+                filterData();
+            });
+
+            $('#actionSearch').on('click',function(e) {
+                e.preventDefault();
+                filterData();
+            });
 
             $('#ticketForm').submit(function(e) {
                 e.preventDefault();
