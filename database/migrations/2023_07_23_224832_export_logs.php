@@ -1,0 +1,32 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('ExportLog', function (Blueprint $table) {
+            $table->id();
+            $table->integer('idUser');
+            $table->boolean('PlanoContabil');
+            $table->boolean('MovimentoContabilMensal');
+            $table->boolean('DiarioContabilidade');
+            $table->boolean('MovimentoRealizavel');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('ExportLog');
+    }
+};

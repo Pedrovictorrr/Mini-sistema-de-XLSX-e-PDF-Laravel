@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\PlanoContabilExport;
 use App\Models\DiarioContabilidade;
+use App\Models\ExportLog;
 use App\Models\MovimentoContabilMensal;
 use App\Models\PlanoContabil;
 use App\Models\RealizacaoMensalReceitaFonte;
@@ -37,10 +38,39 @@ class ExportadorController extends Controller
 
     public function findFile(Request $request)
     {
+        $PlanoContabil = false;
+        $MovimentoContabil = false;
+        $DiarioContabil = false;
+        $RealizacaMensal = false;
+        
         try {
+            $dados = $request->all();
+            if ($dados['Plano_Contabil']) {
+                $this->generatePlanoContabilFile($dados);
+                $PlanoContabil = true;
+            }
+            if ($dados['Movimento_Contabil']) {
+                $this->generateMovimentoContabilFile($dados);
+                $MovimentoContabil = true;
+            }
+            if ($dados['Diario_Contabilidade']) {
+                $this->generateDiarioContabilidadeFile($dados);
+                $DiarioContabil = true;
+            }
+            if ($dados['Movimento_Realizavel']) {
+                $this->generateRealizacaoMensalReceitaFile($dados);
+                $RealizacaMensal = true;
+            }
 
-            $teste = $this->generatePlanoContabilFile($request->all());
-            dd($teste);
+            //salvando log//
+            ExportLog::create([
+                'idUser' => Auth()->user()->id,
+                'PlanoContabil' => $PlanoContabil,
+                'MovimentoContabilMensal' => $MovimentoContabil,
+                'DiarioContabilidade' => $DiarioContabil,
+                'MovimentoRealizavel' => $RealizacaMensal,
+            ]);
+
             return true;
         } catch (\Throwable $th) {
             //throw $th;
@@ -50,38 +80,38 @@ class ExportadorController extends Controller
 
     // Funções para gerar arquivos // 
     public function generatePlanoContabilFile($dados)
-    {   
+    {
         $ano = $dados['Ano'];
         $cpf = Auth()->user()->cpf;
         $registros =  PlanoContabil::where('nrAnoAplicacao', $ano)
             ->get();
-        return Excel::store(new PlanoContabilExport($registros), 'planilhas/'.$cpf .'/PlanoContabil.xlsx');
+        return Excel::store(new PlanoContabilExport($registros), 'planilhas/' . $cpf . '/PlanoContabil.xlsx');
     }
 
     public function generateMovimentoContabilFile($dados)
-    {   
+    {
         $ano = $dados['Ano'];
         $cpf = Auth()->user()->cpf;
         $registros =  MovimentoContabilMensal::where('nrAnoAplicacao', $ano)
             ->get();
-        return Excel::store(new PlanoContabilExport($registros), 'planilhas/'.$cpf .'/MovimentoContabilMensal.xlsx');
+        return Excel::store(new PlanoContabilExport($registros), 'planilhas/' . $cpf . '/MovimentoContabilMensal.xlsx');
     }
 
-    public function generateRealizaçãoMensalReceitaFile($dados)
-    {   
+    public function generateRealizacaoMensalReceitaFile($dados)
+    {
         $ano = $dados['Ano'];
         $cpf = Auth()->user()->cpf;
         $registros =  RealizacaoMensalReceitaFonte::where('nrAnoAplicacao', $ano)
             ->get();
-        return Excel::store(new PlanoContabilExport($registros), 'planilhas/'.$cpf .'/RealizacaoMensalReceitaFonte.xlsx');
+        return Excel::store(new PlanoContabilExport($registros), 'planilhas/' . $cpf . '/RealizacaoMensalReceitaFonte.xlsx');
     }
 
     public function generateDiarioContabilidadeFile($dados)
-    {   
+    {
         $ano = $dados['Ano'];
         $cpf = Auth()->user()->cpf;
         $registros =  DiarioContabilidade::where('nrAnoOperacao', $ano)
             ->get();
-        return Excel::store(new PlanoContabilExport($registros), 'planilhas/'.$cpf .'/DiarioContabilidade.xlsx');
+        return Excel::store(new PlanoContabilExport($registros), 'planilhas/' . $cpf . '/DiarioContabilidade.xlsx');
     }
 }

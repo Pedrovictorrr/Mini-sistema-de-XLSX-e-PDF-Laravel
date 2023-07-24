@@ -1,6 +1,47 @@
 @extends('layout')
 @section('content')
-    <form method="POST" action="{{ route('Exportador.findFile') }}">
+    <style>
+        /* Estilos para o modal */
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        #myModal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        #myModal .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 70%;
+        }
+
+        #myModal .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        #myModal .close:hover,
+        #myModal .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+
+    <form id="meuFormulario">
         @csrf
         <div class="border p-3 rounded  bg-white">
             <div class="form-group">
@@ -34,13 +75,14 @@
                     </label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input disabled  class="form-check-input" value="Diario" type="radio" name="Geracao" id="Geracao2">
+                    <input disabled class="form-check-input" value="Diario" type="radio" name="Geracao" id="Geracao2">
                     <label class="form-check-label" for="Geracao2">
                         DIÁRIO
                     </label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input disabled  class="form-check-input" value="Fechamento" type="radio" name="Geracao" id="Geracao3">
+                    <input disabled class="form-check-input" value="Fechamento" type="radio" name="Geracao"
+                        id="Geracao3">
                     <label class="form-check-label" for="Geracao1">
                         FECHAMENTO
                     </label>
@@ -56,7 +98,7 @@
                 <label for="exampleFormControlSelect1">Mês</label>
                 <select name="Mes" class="form-control" id="exampleFormControlSelect1">
                     @foreach ($meses as $index => $mes)
-                        <option value="{{$loop->index+1}}">{{$mes}}</option>
+                        <option value="{{ $loop->index + 1 }}">{{ $mes }}</option>
                     @endforeach
 
 
@@ -132,9 +174,107 @@
             </table>
         </div>
         <div class="p-3">
-            <button type="submit" class="btn btn-primary">Exportar</button>
+            <button type="button" onclick="openModal()" id="enviarFormulario" class="btn btn-primary">Exportar</button>
             <button type="button" class="btn btn-primary">Limpar</button>
             <button type="button" class="btn btn-primary">Ordernar Geração de Arquivos</button>
         </div>
     </form>
+
+    <div id="myModal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div class="alert alert-success" role="alert">
+                <svg xmlns="http://www.w3.org/2000/svg" height="50px" viewBox="0 0 512 512">
+                    <path
+                        d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-111 111-47-47c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l64 64c9.4 9.4 24.6 9.4 33.9 0L369 209z" />
+                </svg>
+                A simple success alert—check it out!
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Arquivo</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Qtde. Registros</th>
+                        <th scope="col">Baixar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">PlanoContabil</th>
+                        <td>Gerado em </td>
+                        <td></td>
+                        <td><a href="" class="btn btn-primary">Baixar</a></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Movimento Contabil Mensal</th>
+                        <td>Gerado em </td>
+                        <td></td>
+                        <td><a href="" class="btn btn-primary">Baixar</a></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Diário Contabilidade</th>
+                        <td>Gerado em </td>
+                        <td></td>
+                        <td><a href="" class="btn btn-primary">Baixar</a></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Movimento Realizavel</th>
+                        <td>Gerado em </td>
+                        <td></td>
+                        <td><a href="" class="btn btn-primary">Baixar</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Função para abrir o modal
+        function openModal() {
+            var modal = document.getElementById("myModal");
+            modal.style.display = "block";
+        }
+
+        // Função para fechar o modal
+        function closeModal() {
+            var modal = document.getElementById("myModal");
+            modal.style.display = "none";
+        }
+
+        // Fecha o modal se o usuário clicar fora da área do modal
+        window.onclick = function(event) {
+            var modal = document.getElementById("myModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        };
+    </script>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#enviarFormulario').on('click', function() {
+                // Obtenha os dados do formulário
+                var formData = $('#meuFormulario').serialize();
+
+                // Envie a solicitação Ajax para o servidor
+                $.ajax({
+                    type: 'POST',
+                    url: '/exportador/find-file', // Substitua pelo caminho da rota que manipula o envio do formulário
+                    data: formData,
+                    success: function(response) {
+                        // Lide com a resposta do servidor aqui (opcional)
+                        console.log('Enviado com sucesso!');
+                    },
+                    error: function(error) {
+                        // Lide com erros de requisição aqui (opcional)
+                        console.log(error);
+                    }
+                });
+            });
+        });
+    </script>
+
 @stop
