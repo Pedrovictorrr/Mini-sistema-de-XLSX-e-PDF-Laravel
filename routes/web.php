@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AtosOrcamentariosController;
 use App\Http\Controllers\ExportadorController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -39,6 +40,11 @@ Route::middleware('auth')->group(function () {
     Route::get('export/download/PlanoContabil',[ExportadorController::class, 'DonwloadPlanoContabil'])->name('Exportador.DonwloadPlanoContabil');
     Route::get('export/download/MovimentoContabilMensal',[ExportadorController::class, 'DonwloadMovimentoContabilMensal'])->name('Exportador.DonwloadMovimentoContabilMensal');
     Route::get('export/download/RealizacaoMensalReceitaFonte',[ExportadorController::class, 'DonwloadRealizacaoMensalReceitaFonte'])->name('Exportador.DonwloadRealizacaoMensalReceitaFonte');
+
+    // atos orçamentarios // 
+
+    Route::get('/orcamentario',[AtosOrcamentariosController::class, 'index'])->name('orcamentarios.atos');
+    Route::post('/orcamentario/nova-lei',[AtosOrcamentariosController::class, 'store'])->name('orcamentarios.store');
 });
 
 

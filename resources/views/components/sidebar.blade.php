@@ -37,7 +37,7 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Consultas:</h6>
                 <a class="collapse-item" href="/exportador-contabil">Exportar</a>
-                {{-- <a class="collapse-item" href="cards.html">Cards</a> --}}
+                <a class="collapse-item"  href="/orcamentario">Orçamentario</a>
             </div>
         </div>
     </li>
@@ -70,7 +70,7 @@
     </div>
 
     <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item active">
+    {{-- <li class="nav-item active">
         <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true"
             aria-controls="collapsePages">
             <i class="fas fa-fw fa-folder"></i>
@@ -89,7 +89,7 @@
                 <a class="collapse-item active" href="blank.html">Blank Page</a>
             </div>
         </div>
-    </li>
+    </li> --}}
 
     <!-- Nav Item - Charts -->
     <li class="nav-item">

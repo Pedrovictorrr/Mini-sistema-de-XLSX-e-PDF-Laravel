@@ -73,7 +73,7 @@
                 </label>
             </div> --}}
         </div>
-        <div class="border rounded shadow">
+        <div class="border rounded bg-white">
             <table class="table">
                 <thead>
                     <tr>
