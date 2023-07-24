@@ -18,6 +18,13 @@
             <span>Dashboard</span></a>
     </li>
 
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('suporte') }}">
+            <i class="fas fa-fw fa-envelope"></i>
+            <span>Suporte</span>
+        </a>
+    </li>
+
     <!-- Divider -->
     <hr class="sidebar-divider">
 
