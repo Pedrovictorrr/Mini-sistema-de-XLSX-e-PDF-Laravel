@@ -34,7 +34,89 @@ body {
     font-size: 1.35rem;
 }
 
+.modal.modal-scroll.show {
+    overflow: hidden !important;
+}
+
+.modal.modal-scroll .modal-content {
+    max-height: 100vh;
+}
+
+.modal.modal-scroll .modal-body {
+    overflow: auto;
+}
+
+.form-control[type=file] {
+    padding: 3px !important;
+}
+
+.accordion.anexosAccordion {
+    border-radius: 0.35rem !important;
+}
+
+.accordion.anexosAccordion .card-header .btn {
+    border-radius: 0;
+    height: 50px;
+    text-decoration: none;
+}
+
+.anexos-acc {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sp-info-title {
+    position: absolute;
+    top: -13px;
+    left: 20px;
+    background-color: #FFFFFF;
+    padding: 0 5px;
+}
+
+.sp-info-andamento {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+}
+
+.sp-info-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    border: 1px solid var(--secondary);
+}
+
+.sp-info-label {
+    margin-top: 10px;
+    font-size: 0.75rem;
+    line-height: 0.9rem;
+    color: var(--secondary);
+    text-align: center;
+    height: 30px;
+}
+
+.sp-inf-tabs {
+    font-size: 0.875rem;
+}
+
+.sp-inf-tabs .nav-link {
+    background-color: #FFFFFF;
+    padding: 8px;
+    border-bottom: 1px solid #e3e6f0;
+}
+
+.sp-inf-tabs .nav-link:not(.active) {
+    border: 0;
+}
+
 @media (min-width: 768px) {
+    .modal.modal-scroll .modal-content {
+        max-height: calc(100vh - 60px);
+    }
+
     .sidebar {
         width: 280px !important;
     }

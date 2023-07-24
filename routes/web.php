@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('layout');
-});
+Route::get('/empenhos-emitidos', fn () => view('commitments-issued'));
+Route::get('/solicitacao-pagamentos', fn () => view('payment-request'));
+Route::get('/solicitacao-pagamentos/info', fn () => view('payment-request-info'));
