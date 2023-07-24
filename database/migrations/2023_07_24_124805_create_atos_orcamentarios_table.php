@@ -21,7 +21,7 @@ return new class extends Migration
                 $table->enum('tipoAto', ['Decreto', 'Resolucao', 'Ato Gestor']);
                 $table->enum('tipoCredito', ['Especial', 'Suplementar', 'Extraordinario']);
                 $table->enum('tipoRecurso', ['Superavit', 'Excesso de arrecadacao','Valor']);
-                $table->enum('Situacao', ['Emitido', 'Finalizado','Aberto','Concluido']);
+                $table->enum('Situacao', ['Emitido', 'Finalizado','Aberto','Concluido','Pendente']);
                 $table->decimal('valorCredito', 20, 2); // Aumentamos a precisão para 20 dígitos e 2 casas decimais.
                 $table->timestamps();
          

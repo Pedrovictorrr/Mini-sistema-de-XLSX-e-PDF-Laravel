@@ -25,10 +25,19 @@ class ExportadorController extends Controller
         ];
         // Cria um array para armazenar os anos
 
-        $PlanoContabil = ExportLog::where('PlanoContabil', '1')->latest()->first()->value('created_at');
-        $MovimentoContabilMensal = ExportLog::where('MovimentoContabilMensal', '1')->latest()->first()->value('created_at');
-        $DiarioContabilidade = ExportLog::where('DiarioContabilidade', '1')->latest()->first()->value('created_at');
-        $MovimentoRealizavel = ExportLog::where('MovimentoRealizavel', '1')->latest()->first()->value('created_at');
+        $PlanoContabilResult = ExportLog::where('PlanoContabil', '1')->latest()->first();
+        $PlanoContabil = $PlanoContabilResult ? $PlanoContabilResult->value('created_at') : 'default_value_1';
+        
+        $MovimentoContabilMensalResult = ExportLog::where('MovimentoContabilMensal', '1')->latest()->first();
+        $MovimentoContabilMensal = $MovimentoContabilMensalResult ? $MovimentoContabilMensalResult->value('created_at') : 'default_value_2';
+        
+        $DiarioContabilidadeResult = ExportLog::where('DiarioContabilidade', '1')->latest()->first();
+        $DiarioContabilidade = $DiarioContabilidadeResult ? $DiarioContabilidadeResult->value('created_at') : 'default_value_3';
+        
+        $MovimentoRealizavelResult = ExportLog::where('MovimentoRealizavel', '1')->latest()->first();
+        $MovimentoRealizavel = $MovimentoRealizavelResult ? $MovimentoRealizavelResult->value('created_at') : 'default_value_4';
+        
+        
 
         $anos = [];
         // Loop para adicionar os anos de 1900 ao ano atual no array
