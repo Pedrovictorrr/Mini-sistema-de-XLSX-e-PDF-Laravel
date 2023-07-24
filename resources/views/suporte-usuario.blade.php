@@ -32,10 +32,17 @@
             </select><br><br>
         </div>
         <div class="mb-3 d-flex align-items-center  col-12">
+            <label class="form-label col-2" for="usuario">Usuário Origem:</label>
+            <select class="form-control ml-2 form-select" id="usuario" name="usuario">
+            </select>
+        </div>
+
+        <div class="mb-3 d-flex align-items-center  col-12">
             <label class="form-label col-2" for="responsavel">Responsável:</label>
             <select class="form-control ml-2 form-select" id="responsavel" name="responsavel">
             </select>
         </div>
+
         <div class="mb-3 d-flex align-items-center col-12">
             <label for="assunto" class="form-label col-2">Assunto:</label>
             <input type="text" class="form-control col-9 ml-2" id="assunto" name="assunto">
@@ -84,19 +91,25 @@
                     </div>
                     <div class="modal-body">
                         <div class="d-flex nameLabel"></div>
-                        <textarea class="form-control textArea" rows="3" disabled></textarea>
+                        <textarea class="form-control textArea" rows="2" disabled></textarea>
+                        <div class="chat" id="chat"></div>
                         <div class="form-group">
-                            <label for="mensagem">Enviar nova mensagem:</label>
-                            <div class="col-12 d-flex">
-                                <textarea class="form-control col-9" name="mensagem" rows="5" id="mensagem"></textarea>
-                                <div
-                                    class="actions-button col-3 d-flex flex-column align-items-center justify-content-center">
-                                    <button type="button" class="btn btn-primary mb-2 openAttach"><i
-                                            class="fa fa-cloud-download-alt"></i></button>
-                                    <button type="button" class="btn btn-primary"><i
-                                            class="fa fa-paper-plane"></i></button>
+                            <form action="" id="ticketForm" method="post">
+                                @csrf
+                                @method('put')
+                                <label for="mensagem">Enviar nova mensagem:</label>
+                                <div class="col-12 d-flex">
+                                    <textarea class="form-control col-9" name="mensagemModal" rows="2" id="mensagem"></textarea>
+                                    <div
+                                        class="actions-button col-3 d-flex flex-column align-items-center justify-content-center">
+                                        <button type="button" class="btn btn-primary mb-2 openAttach"><i
+                                                class="fa fa-cloud-download-alt"></i></button>
+                                        <button type="submit" class="btn btn-primary btnActionModal"><i
+                                                class="fa fa-paper-plane"></i></button>
+                                    </div>
                                 </div>
-                            </div>
+                                <input type="file" name="anexo[]" id="fileModal" multiple style="display: none;">
+                            </form>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -122,7 +135,7 @@
 
                             </ul>
                         </div>
-                        <input type="file" name="anexo[]" id="file" multiple style="display: none;">
+                        <input type="file" name="anexos[]" id="file" multiple style="display: none;">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default closeAttach" data-dismiss="modal">Fechar</button>
@@ -151,17 +164,28 @@
                 row.append($('<td>').text(ticket.assunto));
                 row.append($('<td>').text(ticket.situacao.nome));
 
-                // Criação dos botões de ação
                 var actionCell = $('<td>').addClass('actions small');
                 var status = "status-" + ticket.situacao_id;
                 var button1 = $('<button type="button">').html('<i class="fas fa-comment"></i>')
                     .addClass('btn btn-primary btn-sm mr-1 ' + status).click(
                         function() {
-                            // $('#ticketModal .modal-body').empty();
+                            $('#ticketModal .modal-body .nameLabel').html('');
+                            $('#ticketModal .modal-body #mensagem').val('');
+                            $('#ticketModal .modal-body #fileModal').val('');
+                            $('#ticketModal .modal-body #file').val('');
+                            $('#chat').empty();
+
+                            $.each(ticket.mensagens, function(index, mensagem) {
+                                var messageInfoElement = $('<div>').text(mensagem.created_at + ' - ' + mensagem.user.name);
+                                var messageTextElement = $('<p>').text(mensagem.mensagem);
+                                var messageElement = $('<div>').append(messageInfoElement, messageTextElement);
+                                $('#chat').append(messageElement);
+                            });
+
+                            $('#ticketForm').attr('action', '/tickets/' + ticket.id);
                             $('#ticketModal .modal-body .nameLabel').append('<p>' + ticket.created_at + ' - ' +
                                 ticket.user.name + '</p>');
-                            $('#ticketModal .modal-body .textArea').text(ticket.mensagem)
-                            $('#ticketModal .modal-body .textArea').text(ticket.mensagem).attr('disabled',
+                            $('#ticketModal .modal-body .textArea').html(ticket.mensagem).attr('disabled',
                                 'disabled');
                             $('#ticketModal').modal('show');
                         });
@@ -198,23 +222,25 @@
             var end = $('#end').val();
             var modulo = $('#modulo').val();
             var responsavel = $('#responsavel').val();
+            var usuario = $('#usuario').val();
             var assunto = $('#assunto').val();
             var kind = $('input[name="kind"]:checked').val();
 
             var filteredData = originalData.filter(function(ticket) {
                 var ticketDateObj = ticket.created_at.split('/').reverse().join('-');
+                var ticketLastAwnserObj = ticket.ultima_resposta.split('/').reverse().join('-');
 
                 var kindMatch = true;
                 if (kind == 0) kindMatch = (ticket.situacao_id == 1 || ticket.situacao_id == 2);
                 else if (kind == 1) kindMatch = (ticket.situacao_id == 3);
-
                 return (!id || ticket.id == id) &&
                     (!dateBegin || ticketDateObj >= dateBegin) &&
                     (!dateEnd || ticketDateObj <= dateEnd) &&
-                    (!begin || ticket.ultima_resposta >= dateBegin) &&
-                    (!end || ticket.ultima_resposta <= dateEnd) &&
+                    (!begin || ticketLastAwnserObj >= begin) &&
+                    (!end || ticketLastAwnserObj <= end) &&
                     (!modulo || ticket.modulo.nome == modulo) &&
-                    (!responsavel || (ticket.user_id == responsavel)) &&
+                    (!usuario || (ticket.user_id == usuario)) &&
+                    (!responsavel || (ticket.responsavel_id == responsavel)) &&
                     (!assunto || ticket.assunto.includes(assunto)) &&
                     kindMatch;
             });
@@ -229,6 +255,7 @@
 
             var dropzone = $('#dropzone');
             var fileInput = $('#file');
+            var fileInputModal = $('#fileModal');
             var fileList = $('#fileList');
             var files = [];
 
@@ -237,18 +264,37 @@
             $.ajax({
                 url: '/usuarios',
                 method: 'GET',
-                success: function(data) {
+                success: function(response) {
                     var select = $('#responsavel');
+                    var selectUser = $('#usuario');
                     select.empty();
 
-                    if (data.length > 1) {
-                        select.append($('<option>', {
+                    if (response.self.role == 1) {
+                        selectUser.append($('<option>', {
+                            value: response.self.id,
+                            text: response.self.name
+                        }));
+                        selectUser.attr('disabled', 'disabled');
+                    } else {
+                        selectUser.append($('<option>', {
                             value: '',
                             text: ''
                         }));
-                    } else select.attr('disabled', 'disabled');
+                        $.each(response.data, function(index, usuario) {
+                            selectUser.append($('<option>', {
+                                value: usuario.id,
+                                text: usuario.name
+                            }));
+                        });
+                    }
 
-                    $.each(data, function(index, usuario) {
+                    select.append($('<option>', {
+                        value: '',
+                        text: ''
+                    }));
+
+                    $.each(response.data, function(index, usuario) {
+                        if (usuario.role == 1) return;
                         select.append($('<option>', {
                             value: usuario.id,
                             text: usuario.name
@@ -265,6 +311,11 @@
 
             $('.closeAttach').click(function() {
                 $('#ticketModal').css('opacity', 1);
+            });
+
+            $('.btnActionModal').click(function() {
+                files = [];
+                fileList.children('li:not(.basePath)').remove();
             });
 
             dropzone.on('click', function() {
@@ -284,11 +335,13 @@
             dropzone.on('drop', function(e) {
                 e.preventDefault();
                 dropzone.css('background-color', 'transparent');
+                fileInputModal.files = fileInput.files;
                 Array.prototype.push.apply(files, e.originalEvent.dataTransfer.files);
                 displayFiles();
             });
 
             fileInput.on('change', function() {
+                fileInputModal[0].files = fileInput[0].files;
                 Array.prototype.push.apply(files, fileInput[0].files);
                 displayFiles();
             });
@@ -314,6 +367,22 @@
                     fileList.append(fileItem);
                 }
             }
+
+            $('#ticketForm').submit(function(e) {
+                e.preventDefault();
+                var formData = new FormData(this);
+                $.ajax({
+                    url: this.action,
+                    type: this.method,
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(data) {
+                        $('#ticketModal').modal('hide');
+                        fetchTickets();
+                    },
+                });
+            });
         });
     </script>
 

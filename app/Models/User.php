@@ -28,10 +28,15 @@ class User extends Authenticatable
     {
         return $this->hasMany(Ticket::class);
     }
-    
+
     public function ticketsResponsavel()
     {
         return $this->hasMany(Ticket::class, 'responsavel_id');
+    }
+
+    public function mensagens()
+    {
+        return $this->hasMany(Mensagem::class);
     }
 
     /**

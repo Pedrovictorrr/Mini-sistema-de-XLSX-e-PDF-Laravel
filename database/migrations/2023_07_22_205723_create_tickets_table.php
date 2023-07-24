@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('modulo_id')->default(1);
             $table->unsignedBigInteger('situacao_id')->default(1);
             $table->unsignedBigInteger('responsavel_id')->nullable();
-            $table->timestamp('ultima_resposta')->nullable()->useCurrentOnUpdate();
+            $table->timestamp('ultima_resposta')->useCurrent()->useCurrentOnUpdate();
             $table->timestamps();
     
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

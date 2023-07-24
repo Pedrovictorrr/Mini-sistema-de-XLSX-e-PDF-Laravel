@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Ticket extends Model
 {
     use HasFactory;
-    protected $fillable = ['assunto', 'mensagem', 'user_id', 'responsavel_id', 'situacao_id', 'modulo_id', 'anexo'];
+    protected $fillable = ['assunto', 'mensagem', 'user_id', 'responsavel_id', 'situacao_id', 'modulo_id', 'anexo', 'ultima_resposta'];
 
     protected $casts = [
         'ultima_resposta' => 'datetime:d/m/Y',
@@ -33,5 +33,10 @@ class Ticket extends Model
     public function responsavel()
     {
         return $this->belongsTo(User::class, 'responsavel_id');
+    }
+
+    public function mensagens()
+    {
+        return $this->hasMany(Mensagem::class);
     }
 }

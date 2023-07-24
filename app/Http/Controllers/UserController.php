@@ -15,9 +15,9 @@ class UserController extends Controller
         if ($user->role == 2) {
             $users = User::all();
         } else {
-            $users = collect([$user]);
+            $users = User::where('role', 2)->get();
         }
 
-        return response()->json($users, 200);
+        return response()->json(['data' => $users, 'self' => $user], 200);
     }
 }
