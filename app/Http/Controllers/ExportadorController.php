@@ -24,56 +24,66 @@ class ExportadorController extends Controller
             'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
         ];
         // Cria um array para armazenar os anos
-        $anos = [];
 
+        $PlanoContabil = ExportLog::where('PlanoContabil', '1')->latest()->first()->value('created_at');
+        $MovimentoContabilMensal = ExportLog::where('MovimentoContabilMensal', '1')->latest()->first()->value('created_at');
+        $DiarioContabilidade = ExportLog::where('DiarioContabilidade', '1')->latest()->first()->value('created_at');
+        $MovimentoRealizavel = ExportLog::where('MovimentoRealizavel', '1')->latest()->first()->value('created_at');
+
+        $anos = [];
         // Loop para adicionar os anos de 1900 ao ano atual no array
         for ($ano = $anoAtual; $ano >= 1900; $ano--) {
             $anos[] = $ano;
         }
 
-        return view('admin.exportador', compact('anos', 'meses'));
+        return view('admin.exportador', compact('anos', 'meses', 'PlanoContabil', 'MovimentoContabilMensal', 'DiarioContabilidade', 'MovimentoRealizavel'));
     }
 
 
 
     public function findFile(Request $request)
     {
-        $PlanoContabil = false;
-        $MovimentoContabil = false;
-        $DiarioContabil = false;
-        $RealizacaMensal = false;
-        
         try {
-            $dados = $request->all();
-            if ($dados['Plano_Contabil']) {
-                $this->generatePlanoContabilFile($dados);
-                $PlanoContabil = true;
+        $dados = $request->all();
+
+        // Assign the value of the array keys to the corresponding variables
+        $PlanoContabil = isset($dados['Plano_Contabil']) ? true : false;
+        $MovimentoContabil = isset($dados['Movimento_Contabil']) ? true : false;
+        $DiarioContabil = isset($dados['Diario_Contabilidade']) ? true : false;
+        $RealizacaMensal = isset($dados['Movimento_Realizavel']) ? true : false;
+        
+            if ($PlanoContabil) {
+                $PlanoContabilQTD = $this->generatePlanoContabilFile($dados);
             }
-            if ($dados['Movimento_Contabil']) {
-                $this->generateMovimentoContabilFile($dados);
-                $MovimentoContabil = true;
+            if ($MovimentoContabil) {
+                $MovimentoContabilQTD =  $this->generateMovimentoContabilFile($dados);
             }
-            if ($dados['Diario_Contabilidade']) {
-                $this->generateDiarioContabilidadeFile($dados);
-                $DiarioContabil = true;
+            if ($DiarioContabil) {
+                $DiarioContabilQTD =  $this->generateDiarioContabilidadeFile($dados);
             }
-            if ($dados['Movimento_Realizavel']) {
-                $this->generateRealizacaoMensalReceitaFile($dados);
-                $RealizacaMensal = true;
+            if ($RealizacaMensal) {
+                $RealizacaMensalQTD = $this->generateRealizacaoMensalReceitaFile($dados);
             }
+
 
             //salvando log//
             ExportLog::create([
                 'idUser' => Auth()->user()->id,
+                //verificando se é true ou false os registros
                 'PlanoContabil' => $PlanoContabil,
                 'MovimentoContabilMensal' => $MovimentoContabil,
                 'DiarioContabilidade' => $DiarioContabil,
                 'MovimentoRealizavel' => $RealizacaMensal,
+                //salvando quantidades de registros no log
+                'PlanoContabilQTD' => isset($PlanoContabilQTD) ? $PlanoContabilQTD : 0,
+                'MovimentoContabilMensalQTD' => isset($MovimentoContabilQTD) ? $MovimentoContabilQTD : 0,
+                'DiarioContabilidadeQTD' => isset($DiarioContabilQTD) ? $DiarioContabilQTD : 0,
+                'MovimentoRealizavelQTD' => isset($RealizacaMensalQTD) ? $RealizacaMensalQTD : 0,
             ]);
 
             return true;
         } catch (\Throwable $th) {
-            //throw $th;
+            return $th;
         } //code...//code...
     }
 
@@ -83,35 +93,96 @@ class ExportadorController extends Controller
     {
         $ano = $dados['Ano'];
         $cpf = Auth()->user()->cpf;
-        $registros =  PlanoContabil::where('nrAnoAplicacao', $ano)
-            ->get();
-        return Excel::store(new PlanoContabilExport($registros), 'planilhas/' . $cpf . '/PlanoContabil.xlsx');
+        $registros =  PlanoContabil::where('nrAnoAplicacao', $ano)->get();
+        Excel::store(new PlanoContabilExport($registros), 'planilhas/' . $cpf . '/PlanoContabil.xlsx');
+        $count =  $registros->count();
+        return $count;
     }
 
     public function generateMovimentoContabilFile($dados)
     {
         $ano = $dados['Ano'];
         $cpf = Auth()->user()->cpf;
-        $registros =  MovimentoContabilMensal::where('nrAnoAplicacao', $ano)
-            ->get();
-        return Excel::store(new PlanoContabilExport($registros), 'planilhas/' . $cpf . '/MovimentoContabilMensal.xlsx');
+        $registros =  MovimentoContabilMensal::where('nrAnoAplicacao', $ano)->get();
+        Excel::store(new PlanoContabilExport($registros), 'planilhas/' . $cpf . '/MovimentoContabilMensal.xlsx');
+        $count =  $registros->count();
+        return $count;
     }
 
     public function generateRealizacaoMensalReceitaFile($dados)
     {
         $ano = $dados['Ano'];
         $cpf = Auth()->user()->cpf;
-        $registros =  RealizacaoMensalReceitaFonte::where('nrAnoAplicacao', $ano)
-            ->get();
-        return Excel::store(new PlanoContabilExport($registros), 'planilhas/' . $cpf . '/RealizacaoMensalReceitaFonte.xlsx');
+        $registros =  RealizacaoMensalReceitaFonte::where('nrAnoAplicacao', $ano)->get();
+        Excel::store(new PlanoContabilExport($registros), 'planilhas/' . $cpf . '/RealizacaoMensalReceitaFonte.xlsx');
+        $count =  $registros->count();
+        return $count;
     }
 
     public function generateDiarioContabilidadeFile($dados)
     {
         $ano = $dados['Ano'];
         $cpf = Auth()->user()->cpf;
-        $registros =  DiarioContabilidade::where('nrAnoOperacao', $ano)
-            ->get();
-        return Excel::store(new PlanoContabilExport($registros), 'planilhas/' . $cpf . '/DiarioContabilidade.xlsx');
+        $registros =  DiarioContabilidade::where('nrAnoOperacao', $ano)->get();
+        Excel::store(new PlanoContabilExport($registros), 'planilhas/' . $cpf . '/DiarioContabilidade.xlsx');
+        $count =  $registros->count();
+        return $count;
+    }
+
+
+    //***** Donwload xlsx *****// 
+
+    public function getDownloadExportList()
+    {
+        $dados = ExportLog::latest()->first();
+        return response()->json([$dados]);
+    }
+
+    public function DonwloadPlanoContabil()
+    {
+        $cpf = Auth()->user()->cpf;
+        $arquivo = storage_path('app/planilhas/' . $cpf . '/PlanoContabil.xlsx');
+
+        if (file_exists($arquivo)) {
+            return response()->download($arquivo);
+        } else {
+            abort(404, 'Arquivo não existe');
+        }
+    }
+
+    public function DonwloadMovimentoContabilMensal()
+    {
+        $cpf = Auth()->user()->cpf;
+        $arquivo = storage_path('app/planilhas/' . $cpf . '/MovimentoContabilMensal.xlsx');
+
+        if (file_exists($arquivo)) {
+            return response()->download($arquivo);
+        } else {
+            abort(404, 'Arquivo não existe');
+        }
+    }
+
+    public function DonwloadDiarioContabilidade()
+    {
+        $cpf = Auth()->user()->cpf;
+        $arquivo = storage_path('app/planilhas/' . $cpf . '/DiarioContabilidade.xlsx');
+
+        if (file_exists($arquivo)) {
+            return response()->download($arquivo);
+        } else {
+            abort(404, 'Arquivo não existe');
+        }
+    }
+
+    public function DonwloadRealizacaoMensalReceitaFonte()
+    {
+        $cpf = Auth()->user()->cpf;
+        $arquivo = storage_path('app/planilhas/' . $cpf . '/RealizacaoMensalReceitaFonte.xlsx');
+
+        if (file_exists($arquivo)) {
+            return response()->download($arquivo);
+        } else {
+            abort(404, 'Arquivo não existe');
+        }
     }
 }

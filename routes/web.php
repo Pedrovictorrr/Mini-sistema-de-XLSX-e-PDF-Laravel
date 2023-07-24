@@ -32,9 +32,17 @@ Route::middleware('auth')->group(function () {
     // ****** exportador contabil ******* // 
     Route::post('/exportador/find-file',[ExportadorController::class, 'findFile'])->name('Exportador.findFile');
     Route::get('/exportador-contabil',[ExportadorController::class, 'index'])->name('Exportador.index');
+    Route::get('/teste',[ExportadorController::class, 'getDownloadExportList'])->name('Exportador.getDownloadExportList');
+
+    // Rotas de download // 
+    Route::get('export/download/DiarioContabilidade',[ExportadorController::class, 'DonwloadDiarioContabilidade'])->name('Exportador.DonwloadDiarioContabilidade');
+    Route::get('export/download/PlanoContabil',[ExportadorController::class, 'DonwloadPlanoContabil'])->name('Exportador.DonwloadPlanoContabil');
+    Route::get('export/download/MovimentoContabilMensal',[ExportadorController::class, 'DonwloadMovimentoContabilMensal'])->name('Exportador.DonwloadMovimentoContabilMensal');
+    Route::get('export/download/RealizacaoMensalReceitaFonte',[ExportadorController::class, 'DonwloadRealizacaoMensalReceitaFonte'])->name('Exportador.DonwloadRealizacaoMensalReceitaFonte');
 });
 
-Route::get('users/export', [ExportadorController::class, 'export']);
+
+
 
 
 require __DIR__.'/auth.php';

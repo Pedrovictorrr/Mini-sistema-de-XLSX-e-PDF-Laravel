@@ -15,9 +15,13 @@ return new class extends Migration
             $table->id();
             $table->integer('idUser');
             $table->boolean('PlanoContabil');
+            $table->unsignedBigInteger('PlanoContabilQTD');
             $table->boolean('MovimentoContabilMensal');
+            $table->unsignedBigInteger('MovimentoContabilMensalQTD');
             $table->boolean('DiarioContabilidade');
+            $table->unsignedBigInteger('DiarioContabilidadeQTD');
             $table->boolean('MovimentoRealizavel');
+            $table->unsignedBigInteger('MovimentoRealizavelQTD');
             $table->timestamps();
         });
     }
