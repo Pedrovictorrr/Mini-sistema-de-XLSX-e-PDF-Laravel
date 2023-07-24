@@ -75,6 +75,62 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="ticketModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel">Atendimento</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="d-flex nameLabel"></div>
+                        <textarea class="form-control textArea" rows="3" disabled></textarea>
+                        <div class="form-group">
+                            <label for="mensagem">Enviar nova mensagem:</label>
+                            <div class="col-12 d-flex">
+                                <textarea class="form-control col-9" name="mensagem" rows="5" id="mensagem"></textarea>
+                                <div
+                                    class="actions-button col-3 d-flex flex-column align-items-center justify-content-center">
+                                    <button type="button" class="btn btn-primary mb-2 openAttach"><i
+                                            class="fa fa-cloud-download-alt"></i></button>
+                                    <button type="button" class="btn btn-primary"><i
+                                            class="fa fa-paper-plane"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="sendFile" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel">Incluir anexo</h4>
+                    </div>
+                    <div class="modal-body">
+                        <label for="anexo">Anexos:</label>
+                        <div class="">
+                            <div id="dropzone" class="form-control mb-3">
+                                Clique ou arraste os arquivos
+                            </div>
+                            <ul id="fileList">
+
+                            </ul>
+                        </div>
+                        <input type="file" name="anexo[]" id="file" multiple style="display: none;">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default closeAttach" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
@@ -83,12 +139,9 @@
     <script>
         var originalData = [];
 
-        // Função para atualizar a tabela com base nos dados retornados da API
         function updateTable(data) {
-            // Limpar a tabela
             $('#dataTable tbody').empty();
 
-            // Preencher a tabela com os novos dados
             $.each(data, function(index, ticket) {
                 var row = $('<tr>');
                 row.append($('<td>').text(ticket.id));
@@ -104,7 +157,13 @@
                 var button1 = $('<button type="button">').html('<i class="fas fa-comment"></i>')
                     .addClass('btn btn-primary btn-sm mr-1 ' + status).click(
                         function() {
-                            // Código para o clique do botão 1
+                            // $('#ticketModal .modal-body').empty();
+                            $('#ticketModal .modal-body .nameLabel').append('<p>' + ticket.created_at + ' - ' +
+                                ticket.user.name + '</p>');
+                            $('#ticketModal .modal-body .textArea').text(ticket.mensagem)
+                            $('#ticketModal .modal-body .textArea').text(ticket.mensagem).attr('disabled',
+                                'disabled');
+                            $('#ticketModal').modal('show');
                         });
 
                 var button2 = $('<a>', {
@@ -121,14 +180,13 @@
 
         function fetchTickets() {
             $.ajax({
-                url: '/tickets', // URL da API
+                url: '/tickets',
                 type: 'GET',
                 success: function(response) {
                     originalData = response.data;
                     updateTable(response.data);
                 },
-                error: function(jqXHR, textStatus, errorThrown) {
-                }
+                error: function(jqXHR, textStatus, errorThrown) {}
             });
         }
 
@@ -168,6 +226,12 @@
         });
 
         $(document).ready(function() {
+
+            var dropzone = $('#dropzone');
+            var fileInput = $('#file');
+            var fileList = $('#fileList');
+            var files = [];
+
             fetchTickets();
 
             $.ajax({
@@ -193,6 +257,63 @@
                 },
                 error: function(jqXHR, textStatus, errorThrown) {}
             });
+
+            $('.openAttach').click(function() {
+                $('#ticketModal').css('opacity', 0);
+                $('#sendFile').modal('show');
+            });
+
+            $('.closeAttach').click(function() {
+                $('#ticketModal').css('opacity', 1);
+            });
+
+            dropzone.on('click', function() {
+                fileInput.click();
+            });
+
+            dropzone.on('dragover', function(e) {
+                e.preventDefault();
+                dropzone.css('background-color', '#eee');
+            });
+
+            dropzone.on('dragleave', function(e) {
+                e.preventDefault();
+                dropzone.css('background-color', 'transparent');
+            });
+
+            dropzone.on('drop', function(e) {
+                e.preventDefault();
+                dropzone.css('background-color', 'transparent');
+                Array.prototype.push.apply(files, e.originalEvent.dataTransfer.files);
+                displayFiles();
+            });
+
+            fileInput.on('change', function() {
+                Array.prototype.push.apply(files, fileInput[0].files);
+                displayFiles();
+            });
+
+            function displayFiles() {
+                fileList.children('li:not(.basePath)').remove();
+
+                for (let i = 0; i < files.length; i++) {
+                    let fileName = $('<span>').addClass('file-name').text(files[i].name);
+                    let fileItem = $('<li>').append(fileName);
+                    let removeButton = $('<button type="button">').addClass('remove').text('X').click(function() {
+                        files.splice(i, 1);
+                        displayFiles();
+                        fileInput.val('');
+                    });
+                    let viewButton = $('<button type="button">').addClass('view').html('<i class="fas fa-eye"></i>')
+                        .click(function() {
+                            let file = files[i];
+                            const objectURL = URL.createObjectURL(file);
+                            window.open(objectURL, '_blank');
+                        });
+                    fileItem.append(removeButton, viewButton);
+                    fileList.append(fileItem);
+                }
+            }
         });
     </script>
 
@@ -237,6 +358,51 @@
         .status-3 {
             background-color: #6f6f6f;
             border-color: #6f6f6f;
+        }
+
+        #fileList {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .file-name {
+            display: inline-block;
+            max-width: 200px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        #fileList li {
+            border: 1px solid black;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        #fileList button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            line-height: 30px;
+            text-align: center;
+            position: absolute;
+            top: 10px;
+        }
+
+        #fileList button.remove {
+            right: 50px;
+        }
+
+        #fileList button.view {
+            right: 10px;
         }
     </style>
 @endsection
