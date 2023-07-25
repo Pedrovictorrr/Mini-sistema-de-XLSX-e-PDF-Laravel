@@ -159,6 +159,7 @@
                                 <div class="row p-4">
                                     <div class="col-sm-12">
                                         <button class="btn btn-outline-secondary" onclick="anexarDocumento('documento_fiscal')">Procurar Arquivo</button>
+                                        <input type="hidden" id="csrfToken" name="_token" value="{{ csrf_token() }}" />
                                     </div>
                                     <div class="col-sm-12" id="documento_fiscal_anexo"></div>
                                 </div>
@@ -284,7 +285,8 @@
         var dataTable;
         var pagamentos;
         var pagamentoIdSelecionado;
-
+        var csrfToken;
+        csrfToken = document.getElementById("csrfToken").value;
         $(document).ready(function() {
             // inicializacao
             const currentURL = new URL(window.location.href);
@@ -580,7 +582,7 @@
                     const data = new FormData();
                     data.append('pagamento_id', pagamentoIdSelecionado);
                     data.append(documentName, event.target.files[0]);
-
+                    data.append('csrf_token', csrfToken);
                     $.ajax({
                         url: '/api/empenho/pagamentos/anexos',
                         method: 'POST',
