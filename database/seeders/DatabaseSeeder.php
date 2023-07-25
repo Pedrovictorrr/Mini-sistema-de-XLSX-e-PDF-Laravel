@@ -19,5 +19,9 @@ class DatabaseSeeder extends Seeder
         //     'cpf' => '11111111111',
         //     'email' => 'test@example.com',
         // ]);
+
+        $this->call([
+            EmpenhoSeeder::class
+        ]);
     }
 }

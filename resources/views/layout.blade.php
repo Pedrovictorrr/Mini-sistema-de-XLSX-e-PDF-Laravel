@@ -23,6 +23,8 @@
 
     <link href="/assets/css/style.css" rel="stylesheet">
 
+    @yield('styles')
+
 </head>
 
 <body id="page-top">

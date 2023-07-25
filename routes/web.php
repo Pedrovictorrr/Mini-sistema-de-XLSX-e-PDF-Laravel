@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\FileController;
@@ -15,6 +16,10 @@ use App\Http\Controllers\UserController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::get('/empenhos-emitidos', fn () => view('commitments-issued'));
+Route::get('/empenho/{empenho_id}/pagamentos', fn () => view('payment-request'));
+Route::get('/solicitacao-pagamentos/info', fn () => view('payment-request-info'));
 
 Route::get('/', function () {
     return view('auth.login');
