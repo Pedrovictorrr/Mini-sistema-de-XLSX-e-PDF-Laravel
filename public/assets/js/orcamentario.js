@@ -50,11 +50,69 @@ window.onclick = function (event) {
 
 // -------------------- modal editar --------------------//
 
-function openModalEdit() {
+function openModalEdit(eventData) {
     var modal = document.getElementById("myModalEdit");
+    var input = document.getElementById("inputid");
     modal.style.display = "block";
+    var item = JSON.parse(eventData.currentTarget.getAttribute('data-item'));
+    var currentId = item.id;
+   
+    // Crie um novo elemento input com o tipo "hidden"
+    var inputElement = document.createElement("input");
+    inputElement.type = "hidden";
+     inputElement.name = "id";
+    // Defina o valor do atributo "value" como o "currentId"
+    inputElement.value = currentId;
 
+    // Adicione o input ao conteúdo do modal antes de exibi-lo
+    input.appendChild(inputElement);
 }
+
+$(document).ready(function() {
+    // Function to handle form submission
+    $("#enviarFormularioEdit").click(function(e) {
+        e.preventDefault(); // Prevent the default form submission
+
+        // Check if the form is valid (all required fields are filled)
+        if ($("#FormEditLei")[0].checkValidity()) {
+            // Get form data
+            var formData = $("#FormEditLei").serialize();
+
+            // Make an AJAX POST request to the server
+            $.ajax({
+                type: "POST",
+                url: "/orcamentario/edit", // Replace with the actual URL where the form should be submitted
+                data: formData,
+                success: function(response) {
+                    // Handle the success response here
+                    closeModalEdit()
+                    $('#tabela-corpo').empty();
+                    $('#alert-pesquisa').empty();
+                    var newRow = '<div class="alert alert-success" role="alert">' +
+                        'Item editado com sucesso!' +
+                        ' </div>'
+                    $('#alert-pesquisa').append(newRow);
+                    setTimeout(function () {
+                        $('#tabela-corpo').empty();
+                        $('#alert-pesquisa').empty();
+                        
+                    }, 5000);
+                },
+                error: function(error) {
+                    // Handle the error response here
+                    console.error("Form submission failed!");
+                    console.error(error.responseText); // You can log or display the error message here
+                }
+            });
+        } else {
+            // If the form is not valid, display an error message or do something else
+            console.error("Please fill in all required fields.");
+            $("#FormEditLei").addClass("was-validated");
+        }
+    });
+});
+
+
 
 // Função para fechar o modal
 function closeModalEdit() {

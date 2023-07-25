@@ -43,47 +43,47 @@
             <td>{{ $dados['id'] }}</td>
         </tr>
         <tr>
-            <th>TIPOLEI</th>
+            <th>TIPO LEI</th>
             <td>{{ $dados['tipolei'] }}</td>
         </tr>
         <tr>
-            <th>DECRETOALTERACAOORCAMENTARIA</th>
+            <th>DECRETO ALTERAÇÃO ORÇAMENTARIA</th>
             <td>{{ $dados['decretoalteracaoorcamentaria'] }}</td>
         </tr>
         <tr>
-            <th>DATAATO</th>
+            <th>DATA ATO</th>
             <td>{{ $dados['dataato'] }}</td>
         </tr>
         <tr>
-            <th>DATAPUBLICACAO</th>
+            <th>DATA PUBLICAÇÃO</th>
             <td>{{ $dados['datapublicacao'] }}</td>
         </tr>
         <tr>
-            <th>TIPOATO</th>
+            <th>TIPO ATO</th>
             <td>{{ $dados['tipoato'] }}</td>
         </tr>
         <tr>
-            <th>TIPOCREDITO</th>
+            <th>TIPO CRÉDITO</th>
             <td>{{ $dados['tipocredito'] }}</td>
         </tr>
         <tr>
-            <th>TIPORECURSO</th>
+            <th>TIPO RECURSO</th>
             <td>{{ $dados['tiporecurso'] }}</td>
         </tr>
         <tr>
-            <th>SITUACAO</th>
+            <th>SITUAÇÃO</th>
             <td>{{ $dados['situacao'] }}</td>
         </tr>
         <tr>
-            <th>VALORCREDITO</th>
+            <th>VALOR CREDITO</th>
             <td>{{ $dados['valorcredito'] }}</td>
         </tr>
         <tr>
-            <th>CREATED_AT</th>
+            <th>DATA DE CRIAÇÃO</th>
             <td>{{ $dados['created_at'] }}</td>
         </tr>
         <tr>
-            <th>UPDATED_AT</th>
+            <th>DATA DE EDIÇÃO</th>
             <td>{{ $dados['updated_at'] }}</td>
         </tr>
     </table>

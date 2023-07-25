@@ -209,37 +209,40 @@
     <div id="myModalEdit">
         <div class="modal-content">
             <span class="close" onclick="closeModalEdit()">&times;</span>
-            <form class="FormNovaLei" id="FormNovaLei">
+            <div>
+                <h3>Editar</h3>
+            </div>
+            <form class="FormEditLei" id="FormEditLei">
                 @csrf
                 <div class="p-2">
-                    <div class="row">
+                    <div class="row" id="inputid">
                         <div class="form-group col ">
-                            <label for="exampleFormControlInput1 " class="">Número / Ano</label>
+                            <label for="Numero1 " class="">Número / Ano</label>
                             <input required type="text" name="Numero" class="form-control "
-                                id="exampleFormControlInput1">
+                                id="Numero1">
                         </div>
                         <div class="form-group col ">
                             <label for="exampleFormControlSelect1" class="">Data do Ato</label>
                             <input required type="date" name="Data do Ato" class="form-control" name=""
-                                id="">
+                                id="dta1">
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col ">
                             <label for="exampleFormControlSelect1" class="">Data do Lançamento</label>
                             <input required type="date" name="Data do lancamento" class="form-control" name=""
-                                id="">
+                                id="dtl1">
                         </div>
                         <div class="form-group col">
                             <label for="exampleFormControlSelect1" class="">Data da Publicação</label>
                             <input required type="date" name="Data da Publicacao" class="form-control" name=""
-                                id="">
+                                id="dtp1">
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col ">
                             <label for="exampleFormControlSelect1" class="">Tipo de Ato</label>
-                            <select name="Tipo do ato" class="form-control ">
+                            <select name="Tipo do ato" class="form-control " id="ato1">
                                 <option value="Decreto">Decreto</option>
                                 <option value="Resolucao">Resolução</option>
                                 <option value="Ato Gestor">Ato Gestor</option>
@@ -247,7 +250,7 @@
                         </div>
                         <div class="form-group col ">
                             <label for="exampleFormControlSelect1" class="">Tipo de Crédito</label>
-                            <select name="Tipo do Credito" class="form-control ">
+                            <select name="Tipo do Credito" class="form-control " id="credito1">
                                 <option value="Especial">Especial</option>
                                 <option value="Suplementar">Suplementar</option>
                                 <option value="Extraordinario">Extraordinário</option>
@@ -257,7 +260,7 @@
                     <div class="row">
                         <div class="form-group col ">
                             <label for="exampleFormControlSelect1" class="mr-2  mt-2">Tipo de Recurso</label>
-                            <select name="Tipo do recurso" class="form-control ">
+                            <select name="Tipo do recurso" class="form-control " id="recurso1">
                                 <option value="Superavit">Superávit</option>
                                 <option value="Excesso de arrecadacao">Excesso de arrecadação</option>
                                 <option value="Valor">Valor do Crédito</option>
@@ -265,7 +268,7 @@
                         </div>
                         <div class="form-group col ">
                             <label for="exampleFormControlSelect1" class="mr-2  mt-2">Status</label>
-                            <select name="Status" class="form-control ">
+                            <select name="Status" class="form-control " id="status1">
                                 <option value="Emitido">Emitido</option>
                                 <option value="Finalizado">Finalizado</option>
                                 <option value="Aberto">Aberto</option>
@@ -274,14 +277,14 @@
                         </div>
                     </div>
                     <div class="form-group row p-2">
-                        <label for="exampleFormControlInput1" class="mr-2 mt-2">Valor</label>
-                        <input required type="number" name="Valor" id="exampleFormControlInput1" placeholder="00.00"
+                        <label for="Valor1" class="mr-2 mt-2">Valor</label>
+                        <input required type="number" name="Valor" id="Valor1" placeholder="00.00"
                             class="form-control col-2" step="0.01">
                     </div>
 
                 </div>
                 <div class="p-1 mt-3">
-                    <button type="button" id="enviarFormulario" class="btn btn-primary">Enviar</button>
+                    <button type="button" id="enviarFormularioEdit" class="btn btn-primary">Enviar</button>
                     <button type="button" class="btn btn-primary">Limpar</button>
                     <button class="btn btn-primary" onclick="closeModalEdit()">Fechar</button>
                 </div>
