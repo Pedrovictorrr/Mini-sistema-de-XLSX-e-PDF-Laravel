@@ -42,6 +42,7 @@
     <div class="modal fade modal-scroll" id="solicitacaoPagamentoModal" tabindex="-1" role="dialog"
         aria-labelledby="solicitacaoPagamentoModalTitle" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <input type="hidden" id="csrfToken" name="_token" value="{{ csrf_token() }}" />
             <div class="modal-content">
                 <div class="modal-header bg-primary text-white">
                     <h5 class="modal-title" id="exampleModalLongTitle">Solicitação de Pagamento</h5>
@@ -283,13 +284,15 @@
         var dataTable;
         var pagamentos;
         var pagamentoIdSelecionado;
-
+        var csrfToken;
         $(document).ready(function() {
             // inicializacao
             const currentURL = new URL(window.location.href);
             const queryParams = new URLSearchParams(currentURL.search);
             const empenho_id = {{ request('empenho_id') }};
             carregarPagamentos(empenho_id);
+            csrfToken = document.getElementById("csrfToken").value;
+    console.log(csrfToken)
 
             // eventos
             $('#pagamentoForm').on('submit', function(event) {
