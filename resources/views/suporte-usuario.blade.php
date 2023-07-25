@@ -49,13 +49,13 @@
             </div>
 
             <div class="mb-3 d-flex align-items-center">
-                <input type="radio" value="0" id="kind" name="kind">
-                <label for="search" class="form-check-label ml-2">Aberto</label>
+                <input type="radio" value="0" id="open" name="kind">
+                <label for="open" class="form-check-label ml-2">Aberto</label>
             </div>
 
             <div class="mb-3 d-flex align-items-center">
-                <input type="radio" value="1" id="kind" name="kind">
-                <label for="kind" class="form-check-label ml-2">Concluido</label>
+                <input type="radio" value="1" id="closed" name="kind">
+                <label for="closed" class="form-check-label ml-2">Concluido</label>
             </div>
 
             <button type="button" id="actionSearch" class="btn btn-success">Pesquisar</button>
@@ -147,9 +147,6 @@
 
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-        var editRoute = "{{ route('tickets.edit', ['ticket' => 'TICKET_ID']) }}";;
-    </script>
     <script>
         var originalData = [];
 
