@@ -11,8 +11,7 @@
     <!-- Nav Item - Dashboard -->
 
     <li class="nav-item">
-        <a class="nav-link" href="#">
-            {{-- <a class="nav-link" href="{{ route('suporte') }}"> --}}
+        <a class="nav-link" href="/suporte-usuario">
             <i class="fas fa-fw fa-envelope"></i>
             <span>Suporte</span>
         </a>
@@ -24,6 +23,9 @@
             <span>Empenhos Emitidos</span>
         </a>
     </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
 
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
