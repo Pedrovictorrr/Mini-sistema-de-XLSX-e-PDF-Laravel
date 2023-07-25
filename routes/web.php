@@ -15,5 +15,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/empenhos-emitidos', fn () => view('commitments-issued'));
-Route::get('/solicitacao-pagamentos', fn () => view('payment-request'));
+Route::get('/empenho/{empenho_id}/pagamentos', fn () => view('payment-request'));
 Route::get('/solicitacao-pagamentos/info', fn () => view('payment-request-info'));

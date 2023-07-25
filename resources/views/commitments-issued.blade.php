@@ -26,87 +26,7 @@
                                     <th class="text-center">Ação</th>
                                 </tr>
                             </thead>
-                            <tfoot>
-                                <tr>
-                                    <th>Empenho</th>
-                                    <th>Data de Emissão</th>
-                                    <th>Contrato</th>
-                                    <th>Valor</th>
-                                    <th class="text-center">Ação</th>
-                                </tr>
-                            </tfoot>
-                            <tbody>
-                                <tr>
-                                    <td>1234</td>
-                                    <td>01/02/2023</td>
-                                    <td>123/2023</td>
-                                    <td>R$ 12345,67</td>
-                                    <td class="text-center">
-                                        <button class="btn btn-primary btn-sm btn-circle" onclick="navigate('/solicitacao-pagamentos')">
-                                            <i class="fas fa-dollar-sign"></i>
-                                        </button>
-                                        <button class="btn btn-primary btn-sm btn-circle">
-                                            <i class="fas fa-info"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1234</td>
-                                    <td>01/02/2023</td>
-                                    <td>123/2023</td>
-                                    <td>R$ 12345,67</td>
-                                    <td class="text-center">
-                                        <button class="btn btn-primary btn-sm btn-circle" onclick="navigate('/solicitacao-pagamentos')">
-                                            <i class="fas fa-dollar-sign"></i>
-                                        </button>
-                                        <button class="btn btn-primary btn-sm btn-circle">
-                                            <i class="fas fa-info"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1234</td>
-                                    <td>01/02/2023</td>
-                                    <td>123/2023</td>
-                                    <td>R$ 12345,67</td>
-                                    <td class="text-center">
-                                        <button class="btn btn-primary btn-sm btn-circle" onclick="navigate('/solicitacao-pagamentos')">
-                                            <i class="fas fa-dollar-sign"></i>
-                                        </button>
-                                        <button class="btn btn-primary btn-sm btn-circle">
-                                            <i class="fas fa-info"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1234</td>
-                                    <td>01/02/2023</td>
-                                    <td>123/2023</td>
-                                    <td>R$ 12345,67</td>
-                                    <td class="text-center">
-                                        <button class="btn btn-primary btn-sm btn-circle" onclick="navigate('/solicitacao-pagamentos')">
-                                            <i class="fas fa-dollar-sign"></i>
-                                        </button>
-                                        <button class="btn btn-primary btn-sm btn-circle">
-                                            <i class="fas fa-info"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1234</td>
-                                    <td>01/02/2023</td>
-                                    <td>123/2023</td>
-                                    <td>R$ 12345,67</td>
-                                    <td class="text-center">
-                                        <button class="btn btn-primary btn-sm btn-circle" onclick="navigate('/solicitacao-pagamentos')">
-                                            <i class="fas fa-dollar-sign"></i>
-                                        </button>
-                                        <button class="btn btn-primary btn-sm btn-circle">
-                                            <i class="fas fa-info"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
+                            <tbody></tbody>
                         </table>
                     </div>
                 </div>
@@ -119,12 +39,65 @@
     <script src="/assets/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="/assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('#dataTable').DataTable();
-        });
+        function carregarEmpenhos() {
+            const dataTable = $('#dataTable').DataTable({
+                columnDefs: [{
+                    targets: 4,
+                    className: 'text-center',
+                    orderable: false
+                }],
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/pt-BR.json',
+                }
+            });
 
-        function navigate(route) {
-            window.location.href = route;
+            $.ajax({
+                url: '/api/empenhos',
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    dataTable.clear().draw();
+                    for (var i = 0; i < data.length; i++) {
+                        const id = data[i].id;
+                        const actions = `
+                            <button class="btn btn-primary btn-sm btn-circle" onclick="paymentRequest(${id})">
+                                <i class="fas fa-dollar-sign"></i>
+                            </button>
+                            <button class="btn btn-primary btn-sm btn-circle">
+                                <i class="fas fa-info"></i>
+                            </button>
+                        `;
+
+                        dataTable.row
+                            .add([
+                                `${id}/${data[i].data_emissao.slice(0, 4)}`,
+                                formatDate(data[i].data_emissao),
+                                `${data[i].contrato_id}/${data[i].data_emissao.slice(0, 4)}`,
+                                formatMoney(data[i].valor),
+                                actions
+                            ])
+                            .draw();
+                    }
+                }
+            });
         }
+
+        function formatDate(inputDate) {
+            const dateParts = inputDate.split(' ')[0].split('-');
+            const formattedDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
+            return formattedDate;
+        }
+
+        function formatMoney(number) {
+            return parseFloat(number).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+
+        function paymentRequest(empenho_id) {
+            window.location.href = `/empenho/${empenho_id}/pagamentos`;
+        }
+
+        $(document).ready(function() {
+            carregarEmpenhos();
+        });
     </script>
 @endsection
