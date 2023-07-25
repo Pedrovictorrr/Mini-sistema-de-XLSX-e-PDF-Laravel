@@ -264,10 +264,10 @@
 
             resetButton.on('click', function() {
                 $(':input', '#myform')
-                .not(':button, :submit, :reset, :hidden')
-                .val('')
-                .prop('checked', false)
-                .prop('selected', false);
+                    .not(':button, :submit, :reset, :hidden')
+                    .val('')
+                    .prop('checked', false)
+                    .prop('selected', false);
                 fetchTickets();
             });
 
@@ -320,6 +320,13 @@
             });
 
             $('.closeAttach').click(function() {
+                $('#ticketModal').css('opacity', 1);
+            });
+
+            $('#sendFile').on('hide.bs.modal', function(e) {
+                if (e.target !== this) {
+                    return;
+                }
                 $('#ticketModal').css('opacity', 1);
             });
 
@@ -383,7 +390,7 @@
                 filterData();
             });
 
-            $('#actionSearch').on('click',function(e) {
+            $('#actionSearch').on('click', function(e) {
                 e.preventDefault();
                 filterData();
             });
