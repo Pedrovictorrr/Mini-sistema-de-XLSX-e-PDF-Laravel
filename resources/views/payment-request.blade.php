@@ -149,7 +149,7 @@
                             <div class="card-header p-0" id="headingFiscalDoc">
                                 <button class="btn btn-link btn-block text-left anexos-acc" type="button"
                                     data-toggle="collapse" data-target="#collapseFiscalDoc" aria-expanded="true"
-                                    aria-controls="collapseFiscalDoc">
+                                    aria-controls="collapseFiscalDoc" id="btn_documento_fiscal_anexo">
                                     Documento Fiscal (NF, Recibo, Guias, Faturas, etc..)
                                 </button>
                             </div>
@@ -157,23 +157,9 @@
                                 data-parent="#accordionExample">
                                 <div class="row p-4">
                                     <div class="col-sm-12">
-                                        <button class="btn btn-outline-secondary">Procurar Arquivo</button>
+                                        <button class="btn btn-outline-secondary" onclick="anexarDocumento('documento_fiscal')">Procurar Arquivo</button>
                                     </div>
-                                    <div class="col-sm-12">
-                                        <div class="card border-secondary mt-3">
-                                            <div class="card-body d-flex justify-content-between align-items-center">
-                                                <div class="text-secondary">NF.pdf (Cadastrado)</div>
-                                                <div>
-                                                    <button class="btn btn-link text-secondary">
-                                                        <i class="fas fa-file"></i>
-                                                    </button>
-                                                    <button class="btn btn-link text-secondary">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <div class="col-sm-12" id="documento_fiscal_anexo"></div>
                                 </div>
                             </div>
                         </div>
@@ -181,32 +167,17 @@
                             <div class="card-header p-0" id="headingNegatDebitos">
                                 <button class="btn btn-link btn-block anexos-acc collapsed" type="button"
                                     data-toggle="collapse" data-target="#collapseNegatDebitos" aria-expanded="false"
-                                    aria-controls="collapseNegatDebitos">
+                                    aria-controls="collapseNegatDebitos" id="btn_certidao_negativa_debitos_anexo">
                                     Certidão Negativa de Débitos
-                                    <i class="fas fa-exclamation-triangle text-warning mr-2"></i>
                                 </button>
                             </div>
                             <div id="collapseNegatDebitos" class="collapse" aria-labelledby="headingNegatDebitos"
                                 data-parent="#accordionExample">
                                 <div class="row p-4">
                                     <div class="col-sm-12">
-                                        <button class="btn btn-outline-secondary">Procurar Arquivo</button>
+                                        <button class="btn btn-outline-secondary" onclick="anexarDocumento('certidao_negativa_debitos')">Procurar Arquivo</button>
                                     </div>
-                                    <div class="col-sm-12">
-                                        <div class="card border-secondary mt-3">
-                                            <div class="card-body d-flex justify-content-between align-items-center">
-                                                <div class="text-secondary">NF.pdf (Cadastrado)</div>
-                                                <div>
-                                                    <button class="btn btn-link text-secondary">
-                                                        <i class="fas fa-file"></i>
-                                                    </button>
-                                                    <button class="btn btn-link text-secondary">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <div class="col-sm-12" id="certidao_negativa_debitos_anexo"></div>
                                 </div>
                             </div>
                         </div>
@@ -214,32 +185,17 @@
                             <div class="card-header p-0" id="headingCertiTrabalhista">
                                 <button class="btn btn-link btn-block anexos-acc collapsed" type="button"
                                     data-toggle="collapse" data-target="#collapseCertiTrabalhista" aria-expanded="false"
-                                    aria-controls="collapseCertiTrabalhista">
+                                    aria-controls="collapseCertiTrabalhista" id="btn_certidao_trabalhista_anexo">
                                     Certidão Trabalhista
-                                    <i class="fas fa-exclamation-triangle text-warning mr-2"></i>
                                 </button>
                             </div>
                             <div id="collapseCertiTrabalhista" class="collapse" aria-labelledby="headingCertiTrabalhista"
                                 data-parent="#accordionExample">
                                 <div class="row p-4">
                                     <div class="col-sm-12">
-                                        <button class="btn btn-outline-secondary">Procurar Arquivo</button>
+                                        <button class="btn btn-outline-secondary" onclick="anexarDocumento('certidao_trabalhista')">Procurar Arquivo</button>
                                     </div>
-                                    <div class="col-sm-12">
-                                        <div class="card border-secondary mt-3">
-                                            <div class="card-body d-flex justify-content-between align-items-center">
-                                                <div class="text-secondary">NF.pdf (Cadastrado)</div>
-                                                <div>
-                                                    <button class="btn btn-link text-secondary">
-                                                        <i class="fas fa-file"></i>
-                                                    </button>
-                                                    <button class="btn btn-link text-secondary">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <div class="col-sm-12" id="certidao_trabalhista_anexo"></div>
                                 </div>
                             </div>
                         </div>
@@ -247,32 +203,17 @@
                             <div class="card-header p-0" id="headingPrevidenciaSocial">
                                 <button class="btn btn-link btn-block anexos-acc collapsed" type="button"
                                     data-toggle="collapse" data-target="#collapsePrevidenciaSocial" aria-expanded="false"
-                                    aria-controls="collapsePrevidenciaSocial">
+                                    aria-controls="collapsePrevidenciaSocial" id="btn_guia_previdencia_social_anexo">
                                     Guia da Previdência Social
-                                    <i class="fas fa-exclamation-triangle text-warning mr-2"></i>
                                 </button>
                             </div>
                             <div id="collapsePrevidenciaSocial" class="collapse"
                                 aria-labelledby="headingPrevidenciaSocial" data-parent="#accordionExample">
                                 <div class="row p-4">
                                     <div class="col-sm-12">
-                                        <button class="btn btn-outline-secondary">Procurar Arquivo</button>
+                                        <button class="btn btn-outline-secondary" onclick="anexarDocumento('guia_previdencia_social')">Procurar Arquivo</button>
                                     </div>
-                                    <div class="col-sm-12">
-                                        <div class="card border-secondary mt-3">
-                                            <div class="card-body d-flex justify-content-between align-items-center">
-                                                <div class="text-secondary">NF.pdf (Cadastrado)</div>
-                                                <div>
-                                                    <button class="btn btn-link text-secondary">
-                                                        <i class="fas fa-file"></i>
-                                                    </button>
-                                                    <button class="btn btn-link text-secondary">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <div class="col-sm-12" id="guia_previdencia_social_anexo"></div>
                                 </div>
                             </div>
                         </div>
@@ -280,32 +221,17 @@
                             <div class="card-header p-0" id="headingFGTS">
                                 <button class="btn btn-link btn-block anexos-acc collapsed" type="button"
                                     data-toggle="collapse" data-target="#collapseFGTS" aria-expanded="false"
-                                    aria-controls="collapseFGTS">
+                                    aria-controls="collapseFGTS" id="btn_fgts_anexo">
                                     FGTS
-                                    <i class="fas fa-exclamation-triangle text-warning mr-2"></i>
                                 </button>
                             </div>
                             <div id="collapseFGTS" class="collapse" aria-labelledby="headingFGTS"
                                 data-parent="#accordionExample">
                                 <div class="row p-4">
                                     <div class="col-sm-12">
-                                        <button class="btn btn-outline-secondary">Procurar Arquivo</button>
+                                        <button class="btn btn-outline-secondary" onclick="anexarDocumento('fgts')">Procurar Arquivo</button>
                                     </div>
-                                    <div class="col-sm-12">
-                                        <div class="card border-secondary mt-3">
-                                            <div class="card-body d-flex justify-content-between align-items-center">
-                                                <div class="text-secondary">NF.pdf (Cadastrado)</div>
-                                                <div>
-                                                    <button class="btn btn-link text-secondary">
-                                                        <i class="fas fa-file"></i>
-                                                    </button>
-                                                    <button class="btn btn-link text-secondary">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <div class="col-sm-12" id="fgts_anexo"></div>
                                 </div>
                             </div>
                         </div>
@@ -355,6 +281,8 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         var dataTable;
+        var pagamentos;
+        var pagamentoIdSelecionado;
 
         $(document).ready(function() {
             // inicializacao
@@ -457,6 +385,7 @@
                 type: 'GET',
                 dataType: 'json',
                 success: function(data) {
+                    pagamentos = data;
                     dataTable.clear().draw();
                     for (var i = 0; i < data.length; i++) {
                         addTabelaPagamento(
@@ -483,15 +412,15 @@
             valor
         ) {
             const actions = `
-                <button class="btn btn-primary btn-sm btn-circle" data-toggle="modal" data-target="#anexosModal">
+                <button class="btn btn-primary btn-sm btn-circle" onclick="openAnexos(${id})">
                     <i class="fab fa-amilia"></i>
                 </button>
                 <button class="btn btn-primary btn-sm btn-circle" data-toggle="modal" data-target="#cancelamentoModal">
                     <i class="fas fa-slash"></i>
                 </button>
-                <button class="btn btn-primary btn-sm btn-circle" onclick="navigate('/solicitacao-pagamentos/info')">
+                <a class="btn btn-primary btn-sm btn-circle" href="/solicitacao-pagamentos/info">
                     <i class="fas fa-info"></i>
-                </button>
+                </a>
             `;
 
             dataTable.row
@@ -505,6 +434,198 @@
                     actions
                 ])
                 .draw();
+        }
+
+        function alterarModalAnexos() {
+            const pagamento = pagamentos.find(p => p.id == pagamentoIdSelecionado);
+            if (pagamento.documento_fiscal) {
+                $('#btn_documento_fiscal_anexo').html('Documento Fiscal (NF, Recibo, Guias, Faturas, etc..)');
+                $('#documento_fiscal_anexo').html(`
+                    <div class="card border-secondary mt-3">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <div class="text-secondary">${pagamento.documento_fiscal.split('/').slice(-1)}</div>
+                            <div>
+                                <a class="btn btn-link text-secondary" href="${pagamento.documento_fiscal}" target="_blank">
+                                    <i class="fas fa-file"></i>
+                                </a>
+                                <button class="btn btn-link text-secondary" onclick="deleteAnexo(${pagamento.id}, 'documento_fiscal')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `);
+            } else {
+                $('#btn_documento_fiscal_anexo').html(`
+                    Documento Fiscal (NF, Recibo, Guias, Faturas, etc..)
+                    <i class="fas fa-exclamation-triangle text-warning mr-2"></i>
+                `);
+                $('#documento_fiscal_anexo').html('');
+            }
+
+            if (pagamento.certidao_negativa_debitos) {
+                $('#btn_certidao_negativa_debitos_anexo').html('Certidão Negativa de Débitos');
+                $('#certidao_negativa_debitos_anexo').html(`
+                    <div class="card border-secondary mt-3">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <div class="text-secondary">${pagamento.certidao_negativa_debitos.split('/').slice(-1)}</div>
+                            <div>
+                                <a class="btn btn-link text-secondary" href="${pagamento.certidao_negativa_debitos}" target="_blank">
+                                    <i class="fas fa-file"></i>
+                                </a>
+                                <button class="btn btn-link text-secondary" onclick="deleteAnexo(${pagamento.id}, 'certidao_negativa_debitos')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `);
+            } else {
+                $('#btn_certidao_negativa_debitos_anexo').html(`
+                    Certidão Negativa de Débitos
+                    <i class="fas fa-exclamation-triangle text-warning mr-2"></i>
+                `);
+                $('#certidao_negativa_debitos_anexo').html('');
+            }
+
+            if (pagamento.certidao_trabalhista) {
+                $('#btn_certidao_trabalhista_anexo').html('Certidão Trabalhista');
+                $('#certidao_trabalhista_anexo').html(`
+                    <div class="card border-secondary mt-3">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <div class="text-secondary">${pagamento.certidao_trabalhista.split('/').slice(-1)}</div>
+                            <div>
+                                <a class="btn btn-link text-secondary" href="${pagamento.certidao_trabalhista}" target="_blank">
+                                    <i class="fas fa-file"></i>
+                                </a>
+                                <button class="btn btn-link text-secondary" onclick="deleteAnexo(${pagamento.id}, 'certidao_trabalhista')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `);
+            } else {
+                $('#btn_certidao_trabalhista_anexo').html(`
+                    Certidão Trabalhista
+                    <i class="fas fa-exclamation-triangle text-warning mr-2"></i>
+                `);
+                $('#certidao_trabalhista_anexo').html('');
+            }
+
+            if (pagamento.guia_previdencia_social) {
+                $('#btn_guia_previdencia_social_anexo').html('Guia da Previdência Social');
+                $('#guia_previdencia_social_anexo').html(`
+                    <div class="card border-secondary mt-3">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <div class="text-secondary">${pagamento.guia_previdencia_social.split('/').slice(-1)}</div>
+                            <div>
+                                <a class="btn btn-link text-secondary" href="${pagamento.guia_previdencia_social}" target="_blank">
+                                    <i class="fas fa-file"></i>
+                                </a>
+                                <button class="btn btn-link text-secondary" onclick="deleteAnexo(${pagamento.id}, 'guia_previdencia_social')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `);
+            } else {
+                $('#btn_guia_previdencia_social_anexo').html(`
+                    Guia da Previdência Social
+                    <i class="fas fa-exclamation-triangle text-warning mr-2"></i>
+                `);
+                $('#guia_previdencia_social_anexo').html('');
+            }
+
+            if (pagamento.fgts) {
+                $('#btn_fgts_anexo').html('FGTS');
+                $('#fgts_anexo').html(`
+                    <div class="card border-secondary mt-3">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <div class="text-secondary">${pagamento.fgts.split('/').slice(-1)}</div>
+                            <div>
+                                <a class="btn btn-link text-secondary" href="${pagamento.fgts}" target="_blank">
+                                    <i class="fas fa-file"></i>
+                                </a>
+                                <button class="btn btn-link text-secondary" onclick="deleteAnexo(${pagamento.id}, 'fgts')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `);
+            } else {
+                $('#btn_fgts_anexo').html(`
+                    FGTS
+                    <i class="fas fa-exclamation-triangle text-warning mr-2"></i>
+                `);
+                $('#fgts_anexo').html('');
+            }
+        }
+
+        function openAnexos(pagamento_id) {
+            pagamentoIdSelecionado = pagamento_id;
+            alterarModalAnexos();            
+            $('#anexosModal').modal('show');
+        }
+
+        function anexarDocumento(documentName) {
+            $('<input>', {
+                type: 'file',
+                change: (event) => {
+                    showLoading('Enviando documento');
+
+                    const data = new FormData();
+                    data.append('pagamento_id', pagamentoIdSelecionado);
+                    data.append(documentName, event.target.files[0]);
+
+                    $.ajax({
+                        url: '/api/empenho/pagamentos/anexos',
+                        method: 'POST',
+                        data: data,
+                        processData: false,
+                        contentType: false,
+                        success: function(pagamento) {
+                            pagamentos = pagamentos.map(p => {
+                                if (p.id == pagamento.id) {
+                                    p[documentName] = pagamento[documentName];
+                                }
+                                return p;
+                            });
+                            alterarModalAnexos();
+                            hideLoading();
+                        },
+                        error: function(xhr, status, error) {
+                            hideLoading();
+                            console.error("Erro na requisição:", error);
+                        }
+                    });
+                }
+            }).click();
+        }
+
+        function deleteAnexo(pagamento_id, anexo_name) {
+            showLoading('Excluindo documento');
+
+            $.ajax({
+                url: `/api/empenho/pagamento/${pagamento_id}/anexo/${anexo_name}`,
+                method: 'DELETE',
+                success: function(pagamento) {
+                    pagamentos = pagamentos.map(p => {
+                        if (p.id == pagamento.id) {
+                            p[anexo_name] = pagamento[anexo_name];
+                        }
+                        return p;
+                    });
+                    alterarModalAnexos();
+                    hideLoading();
+                },
+                error: function(xhr, status, error) {
+                    hideLoading();
+                    console.error("Erro na requisição:", error);
+                }
+            });
         }
 
         function formatDate(inputDate) {
@@ -522,7 +643,7 @@
 
         function showLoading(text) {
             Swal.fire({
-                title: 'Carregando...',
+                title: 'Aguarde...',
                 text: text,
                 didOpen: () => {
                     Swal.showLoading()
@@ -551,10 +672,6 @@
                 icon,
                 title
             });
-        }
-
-        function navigate(route) {
-            window.location.href = route;
         }
     </script>
 @endsection

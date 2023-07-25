@@ -18,7 +18,3 @@ use App\Http\Controllers\Api\TicketController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
-Route::get('empenhos', [App\Http\Controllers\EmpenhoController::class, 'index']);
-Route::get('empenho/{empenho_id}/pagamentos', [App\Http\Controllers\EmpenhoController::class, 'showPagamentos']);
-Route::post('empenho/pagamentos', [App\Http\Controllers\EmpenhoController::class, 'storePagamento']);
