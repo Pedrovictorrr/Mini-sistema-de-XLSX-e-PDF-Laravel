@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AtosOrcamentarios;
+use App\Models\LogAtosOrcamentarios;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 
@@ -26,6 +27,14 @@ class AtosOrcamentariosController extends Controller
                 'tipoRecurso' => $dados['Tipo_do_recurso'],
                 'Situacao' => $dados['Status'],
                 'valorCredito' => $dados['Valor'],
+
+            ]);
+            $idAtos = AtosOrcamentarios::latest()->first()->value('id');
+            $userid = Auth()->user()->name;
+
+            LogAtosOrcamentarios::create([
+                'idAtos' =>  $idAtos,
+                'username' => $userid
 
             ]);
             return true;
@@ -81,9 +90,32 @@ class AtosOrcamentariosController extends Controller
     }
 
     public function DonwloadPdf($id)
-    {
+    {   
+        $dados = AtosOrcamentarios::where('id',$id)->first();
         
-        return PDF::loadView('admin.pdf.pdf')->setPaper('a4')->stream();;
+        return PDF::loadView('admin.pdf.pdf',compact('dados'))->setPaper('a4')->stream();;
 
+    }
+
+    public function delete(Request $request)
+    {
+        try {
+            $dados = $request->all();
+            AtosOrcamentarios::where('id',$dados['id'])->delete();
+            return true;
+        } catch (\Throwable $th) {
+            return $th;
+        }
+    }
+
+    public function getLogAto(Request $request)
+    {
+        // Obtenha o ID do ato da requisição
+
+        $dados = $request->all();
+        $logs =  LogAtosOrcamentarios::where('idAtos',$dados['id'])->get();
+        
+
+        return response()->json($logs);
     }
 }

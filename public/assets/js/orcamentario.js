@@ -53,6 +53,7 @@ window.onclick = function (event) {
 function openModalEdit() {
     var modal = document.getElementById("myModalEdit");
     modal.style.display = "block";
+
 }
 
 // Função para fechar o modal
@@ -78,19 +79,7 @@ window.onclick = function (event) {
 
 // -------------------- Modal deletar --------------------//
 
-function openModalDelete() {
-    var modal = document.getElementById("myModalDelete");
-    modal.style.display = "block";
-}
 
-// Função para fechar o modal
-function closeModalDelete() {
-    var modal = document.getElementById("myModalDelete");
-    modal.style.display = "none";
-
-    // Remove the rows from the table when the modal is closed
-
-}
 
 // Fecha o modal se o usuário clicar fora da área do modal
 window.onclick = function (event) {
@@ -101,7 +90,55 @@ window.onclick = function (event) {
         closeModalDelete();
     }
 };
+var currentId; // Variável global para armazenar o ID do item
+var csrfToken;
+function openModalDelete(id) {
+    var item = JSON.parse(id.currentTarget.getAttribute('data-item'));
+    var modal = document.getElementById("myModalDelete");
+    console.log(item.id);
+    modal.style.display = "block";
+    currentId = item.id; // Salvar o ID na variável global
+    csrfToken = document.getElementById("csrfToken").value;
+    console.log(csrfToken)
+}
 
+function closeModalDelete() {
+    var modal = document.getElementById("myModalDelete");
+    modal.style.display = "none";
+}
+
+function confirmDelete() {
+    closeModalDelete();
+
+    // Obter o token CSRF do documento (válido apenas se estiver usando Laravel)
+
+
+    // Executar a requisição AJAX para a rota POST
+    $.ajax({
+        type: "POST",
+        url: "/orcamentario/delete", // Substitua pelo caminho correto da sua rota POST
+        data: {
+            _token: csrfToken, // Enviar o token CSRF junto com os dados
+            id: currentId
+        },
+        success: function (response) {
+            $('#tabela-corpo').empty();
+            $('#alert-pesquisa').empty();
+            var newRow = '<div class="alert alert-success" role="alert">' +
+                'Item apagado com sucesso!' +
+                ' </div>'
+            $('#alert-pesquisa').append(newRow);
+            setTimeout(function () {
+                $('#tabela-corpo').empty();
+                $('#alert-pesquisa').empty();
+                $('#tabela-resultados2').empty();
+            }, 5000);
+        },
+        error: function (xhr, status, error) {
+            // Lógica em caso de erro
+        }
+    });
+}
 // -------------------- fim modal deletar --------------------//
 
 // -------------------- Modal Show --------------------//
@@ -154,10 +191,45 @@ window.onclick = function (event) {
 
 // -------------------- Modal Log --------------------//
 
-function openModalLog() {
+function openModalLog(id) {
     var modal = document.getElementById("myModalLog");
     modal.style.display = "block";
+    var item = JSON.parse(id.currentTarget.getAttribute('data-item'));
+    var currentId = item.id; // Salvar o ID na variável local (não global)
+
+    // Fazer a solicitação AJAX
+    $.ajax({
+        url: "getLogAto?id=" + currentId, // Substitua "sua_url_do_servidor" pelo endereço do servidor
+        type: "GET",
+        dataType: "json",
+        success: function (data) {
+            console.log(data)
+
+            $('#tabelaLog').empty();// Ajuste "tabelaLog" para o ID correto da tabela
+            data.forEach(function (item) {
+                var dataRecebida = new Date(item.created_at);
+                var dia = dataRecebida.getDate().toString().padStart(2, '0');
+                var mes = (dataRecebida.getMonth() + 1).toString().padStart(2, '0');
+                var ano = dataRecebida.getFullYear();
+                console.log(data)
+                var dataFormatada = dia + '/' + mes + '/' + ano;
+                var newRow = '<tr>' +
+                    '<td>' + item.username + '</td>' +
+                    '<td>' + dataFormatada + '</td>' +
+                    '</tr>';
+
+                // Adicionar a nova linha à tabela
+
+                $('#tabelaLog').append(newRow);
+            });
+        },
+        error: function (xhr, status, error) {
+            // Tratar possíveis erros na solicitação
+            console.error("Erro na requisição AJAX:", status, error);
+        }
+    });
 }
+
 
 // Função para fechar o modal
 function closeModalLog() {
@@ -248,13 +320,13 @@ $(document).ready(function () {
                 data: formData,
                 success: function (response) {
 
-                    if (response && Array.isArray(response)  && response.length > 0) {
+                    if (response && Array.isArray(response) && response.length > 0) {
                         // Clear existing table data if needed
                         $('#tabela-corpo').empty();
                         $('#alert-pesquisa').empty();
-                       
+
                         response.forEach(function (item) {
-                        
+
                             var dataRecebida = new Date(item.created_at);
                             var dia = dataRecebida.getDate().toString().padStart(2, '0');
                             var mes = (dataRecebida.getMonth() + 1).toString().padStart(2, '0');
@@ -281,13 +353,13 @@ $(document).ready(function () {
                                 +
                                 '</svg>'
                                 + '</button>' +
-                                '<button class="btn btn-primary" onclick="openModalDelete()">' +
+                                '<button class="btn btn-primary" onclick="openModalDelete(event)" data-item=\'' + JSON.stringify(item) + '\'>' +
                                 '<svg xmlns="http://www.w3.org/2000/svg" height="1em" style="fill:white" viewBox="0 0 512 512">' +
                                 '<path d="M64 80c-8.8 0-16 7.2-16 16V416c0 8.8 7.2 16 16 16H384c8.8 0 16-7.2 16-16V96c0-8.8-7.2-16-16-16H64zM0 96C0 60.7 28.7 32 64 32H384c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM152 232H296c13.3 0 24 10.7 24 24s-10.7 24-24 24H152c-13.3 0-24-10.7-24-24s10.7-24 24-24z" />' +
                                 +
                                 '</svg>'
                                 + '</button>' +
-                                '<button class="btn btn-primary" onclick="openModalLog()">' +
+                                '<button class="btn btn-primary" onclick="openModalLog(event)" data-item=\'' + JSON.stringify(item) + '\'>' +
                                 '<svg xmlns="http://www.w3.org/2000/svg" height="1em" style="fill:white" viewBox="0 0 512 512">' +
                                 '  <path d="M64 80c-8.8 0-16 7.2-16 16V416c0 8.8 7.2 16 16 16H384c8.8 0 16-7.2 16-16V96c0-8.8-7.2-16-16-16H64zM0 96C0 60.7 28.7 32 64 32H384c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM200 344V280H136c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H248v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z" />' +
                                 +
@@ -312,8 +384,8 @@ $(document).ready(function () {
                             // Append the new row to the table body
                             $('#tabela-corpo').append(newRow);
                         });
-                    }  
-                    else{
+                    }
+                    else {
                         $('#tabela-corpo').empty();
                         $('#alert-pesquisa').empty();
                         var newRow = '<div class="alert alert-danger" role="alert">' +

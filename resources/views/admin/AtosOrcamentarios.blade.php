@@ -73,7 +73,7 @@
         </form>
     </div>
     <div class="mt-2 bg-white">
-        <table class="table table-striped table-bordered tabela-resultados">
+        <table class="table table-striped table-bordered tabela-resultados" id="tabela-resultados2">
             <thead>
                 <tr>
                     <th scope="col">Lei</th>
@@ -89,7 +89,7 @@
                 </tr>
             </thead>
             <tbody id="tabela-corpo">
-             
+
             </tbody>
         </table>
         <div id="alert-pesquisa"></div>
@@ -184,6 +184,8 @@
         </div>
     </div>
     {{-- fim modal --}}
+
+
     {{-- Modal de cadastro com sucesso! --}}
     <div id="myModalSucess">
         <div class="modal-content">
@@ -201,19 +203,90 @@
     </div>
     {{-- Fim modal --}}
 
+
+
     {{-- Modal de editar Informações  --}}
     <div id="myModalEdit">
         <div class="modal-content">
+            <span class="close" onclick="closeModalEdit()">&times;</span>
+            <form class="FormNovaLei" id="FormNovaLei">
+                @csrf
+                <div class="p-2">
+                    <div class="row">
+                        <div class="form-group col ">
+                            <label for="exampleFormControlInput1 " class="">Número / Ano</label>
+                            <input required type="text" name="Numero" class="form-control "
+                                id="exampleFormControlInput1">
+                        </div>
+                        <div class="form-group col ">
+                            <label for="exampleFormControlSelect1" class="">Data do Ato</label>
+                            <input required type="date" name="Data do Ato" class="form-control" name=""
+                                id="">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col ">
+                            <label for="exampleFormControlSelect1" class="">Data do Lançamento</label>
+                            <input required type="date" name="Data do lancamento" class="form-control" name=""
+                                id="">
+                        </div>
+                        <div class="form-group col">
+                            <label for="exampleFormControlSelect1" class="">Data da Publicação</label>
+                            <input required type="date" name="Data da Publicacao" class="form-control" name=""
+                                id="">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col ">
+                            <label for="exampleFormControlSelect1" class="">Tipo de Ato</label>
+                            <select name="Tipo do ato" class="form-control ">
+                                <option value="Decreto">Decreto</option>
+                                <option value="Resolucao">Resolução</option>
+                                <option value="Ato Gestor">Ato Gestor</option>
+                            </select>
+                        </div>
+                        <div class="form-group col ">
+                            <label for="exampleFormControlSelect1" class="">Tipo de Crédito</label>
+                            <select name="Tipo do Credito" class="form-control ">
+                                <option value="Especial">Especial</option>
+                                <option value="Suplementar">Suplementar</option>
+                                <option value="Extraordinario">Extraordinário</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col ">
+                            <label for="exampleFormControlSelect1" class="mr-2  mt-2">Tipo de Recurso</label>
+                            <select name="Tipo do recurso" class="form-control ">
+                                <option value="Superavit">Superávit</option>
+                                <option value="Excesso de arrecadacao">Excesso de arrecadação</option>
+                                <option value="Valor">Valor do Crédito</option>
+                            </select>
+                        </div>
+                        <div class="form-group col ">
+                            <label for="exampleFormControlSelect1" class="mr-2  mt-2">Status</label>
+                            <select name="Status" class="form-control ">
+                                <option value="Emitido">Emitido</option>
+                                <option value="Finalizado">Finalizado</option>
+                                <option value="Aberto">Aberto</option>
+                                <option value="Concluido">Concluido</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row p-2">
+                        <label for="exampleFormControlInput1" class="mr-2 mt-2">Valor</label>
+                        <input required type="number" name="Valor" id="exampleFormControlInput1" placeholder="00.00"
+                            class="form-control col-2" step="0.01">
+                    </div>
 
-            <div class="alert alert-success" role="alert">
-                <svg xmlns="http://www.w3.org/2000/svg" height="50px" class="ml-2" viewBox="0 0 512 512">
-                    <path
-                        d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-111 111-47-47c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l64 64c9.4 9.4 24.6 9.4 33.9 0L369 209z" />
-                </svg>
-                Sua lei foi cadastrada com sucesso!
-            </div>
-            <button class="btn btn-primary" onclick="closeModalEdit()"> Fechar</button>
-
+                </div>
+                <div class="p-1 mt-3">
+                    <button type="button" id="enviarFormulario" class="btn btn-primary">Enviar</button>
+                    <button type="button" class="btn btn-primary">Limpar</button>
+                    <button class="btn btn-primary" onclick="closeModalEdit()">Fechar</button>
+                </div>
+            </form>
+          
         </div>
     </div>
     {{-- Fim modal --}}
@@ -221,14 +294,14 @@
     {{-- Modal de Deletar  --}}
     <div id="myModalDelete">
         <div class="modal-content p-3">
-
+            <input type="hidden" id="csrfToken" name="_token" value="{{ csrf_token() }}" />
             <div class="d-flex justify-content-center p-3" role="alert">
 
                 Tem certeza que deseja deletar esse item?
             </div>
             <div class="d-flex justify-content-center p-2">
                 <div class="p-1">
-                    <button class="btn btn-success  px-5" onclick="closeModalDelete()">Sim</button>
+                    <button class="btn btn-success  px-5" onclick="confirmDelete()">Sim</button>
                 </div>
                 <div class="p-1">
                     <button class="btn btn-danger  px-5" onclick="closeModalDelete()">Não</button>
@@ -241,34 +314,16 @@
     {{-- Modal de Log  --}}
     <div id="myModalLog">
         <div class="modal-content p-3">
+            <h3>Log de alterações</h3>
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Handle</th>
+                        <th scope="col">Usuario</th>
+                        <th scope="col">Data</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td>@twitter</td>
-                    </tr>
+                <tbody id="tabelaLog">
+          
                 </tbody>
             </table>
 
@@ -280,7 +335,7 @@
     <div id="myModalShow">
         <div class="modal-content p-3 " id="ContentModalShow">
 
-            
+
         </div>
     </div>
     {{-- Fim modal --}}

@@ -44,8 +44,10 @@ Route::middleware('auth')->group(function () {
     // atos orçamentarios // 
 
     Route::get('/orcamentario',[AtosOrcamentariosController::class, 'index'])->name('orcamentarios.atos');
+    Route::get('/getLogAto',[AtosOrcamentariosController::class, 'getLogAto'])->name('orcamentarios.getLogAto');
     Route::post('/orcamentario/nova-lei',[AtosOrcamentariosController::class, 'store'])->name('orcamentarios.store');
     Route::post('/orcamentario/pesquisar-lei',[AtosOrcamentariosController::class, 'search'])->name('orcamentarios.search');
+    Route::post('/orcamentario/delete',[AtosOrcamentariosController::class, 'delete'])->name('orcamentarios.delete');
 });
 
 
