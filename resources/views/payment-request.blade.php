@@ -595,7 +595,10 @@
                     $.ajax({
                         url: '/api/empenho/pagamentos/anexos',
                         method: 'POST',
-                        data: data,
+                        data:  {
+                        _token: csrfToken, // Enviar o token CSRF junto com os dados
+                        data
+                    },,
                         processData: false,
                         contentType: false,
                         success: function(pagamento) {
