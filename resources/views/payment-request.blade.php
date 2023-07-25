@@ -158,7 +158,8 @@
                                 data-parent="#accordionExample">
                                 <div class="row p-4">
                                     <div class="col-sm-12">
-                                        <button class="btn btn-outline-secondary" onclick="anexarDocumento('documento_fiscal')">Procurar Arquivo</button>
+                                        <button class="btn btn-outline-secondary"
+                                            onclick="anexarDocumento('documento_fiscal')">Procurar Arquivo</button>
                                     </div>
                                     <div class="col-sm-12" id="documento_fiscal_anexo"></div>
                                 </div>
@@ -176,7 +177,9 @@
                                 data-parent="#accordionExample">
                                 <div class="row p-4">
                                     <div class="col-sm-12">
-                                        <button class="btn btn-outline-secondary" onclick="anexarDocumento('certidao_negativa_debitos')">Procurar Arquivo</button>
+                                        <button class="btn btn-outline-secondary"
+                                            onclick="anexarDocumento('certidao_negativa_debitos')">Procurar
+                                            Arquivo</button>
                                     </div>
                                     <div class="col-sm-12" id="certidao_negativa_debitos_anexo"></div>
                                 </div>
@@ -194,7 +197,8 @@
                                 data-parent="#accordionExample">
                                 <div class="row p-4">
                                     <div class="col-sm-12">
-                                        <button class="btn btn-outline-secondary" onclick="anexarDocumento('certidao_trabalhista')">Procurar Arquivo</button>
+                                        <button class="btn btn-outline-secondary"
+                                            onclick="anexarDocumento('certidao_trabalhista')">Procurar Arquivo</button>
                                     </div>
                                     <div class="col-sm-12" id="certidao_trabalhista_anexo"></div>
                                 </div>
@@ -212,7 +216,8 @@
                                 aria-labelledby="headingPrevidenciaSocial" data-parent="#accordionExample">
                                 <div class="row p-4">
                                     <div class="col-sm-12">
-                                        <button class="btn btn-outline-secondary" onclick="anexarDocumento('guia_previdencia_social')">Procurar Arquivo</button>
+                                        <button class="btn btn-outline-secondary"
+                                            onclick="anexarDocumento('guia_previdencia_social')">Procurar Arquivo</button>
                                     </div>
                                     <div class="col-sm-12" id="guia_previdencia_social_anexo"></div>
                                 </div>
@@ -230,7 +235,8 @@
                                 data-parent="#accordionExample">
                                 <div class="row p-4">
                                     <div class="col-sm-12">
-                                        <button class="btn btn-outline-secondary" onclick="anexarDocumento('fgts')">Procurar Arquivo</button>
+                                        <button class="btn btn-outline-secondary"
+                                            onclick="anexarDocumento('fgts')">Procurar Arquivo</button>
                                     </div>
                                     <div class="col-sm-12" id="fgts_anexo"></div>
                                 </div>
@@ -292,7 +298,7 @@
             const empenho_id = {{ request('empenho_id') }};
             carregarPagamentos(empenho_id);
             csrfToken = document.getElementById("csrfToken").value;
-    console.log(csrfToken)
+            console.log(csrfToken)
 
             // eventos
             $('#pagamentoForm').on('submit', function(event) {
@@ -321,7 +327,10 @@
                 $.ajax({
                     url: '/api/empenho/pagamentos',
                     method: 'POST',
-                    data: data,
+                    data: {
+                        _token: csrfToken, // Enviar o token CSRF junto com os dados
+                        data
+                    },
                     processData: false,
                     contentType: false,
                     success: function() {
@@ -569,7 +578,7 @@
 
         function openAnexos(pagamento_id) {
             pagamentoIdSelecionado = pagamento_id;
-            alterarModalAnexos();            
+            alterarModalAnexos();
             $('#anexosModal').modal('show');
         }
 
