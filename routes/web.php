@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/orcamentario/nova-lei',[AtosOrcamentariosController::class, 'store'])->name('orcamentarios.store');
     Route::post('/orcamentario/pesquisar-lei',[AtosOrcamentariosController::class, 'search'])->name('orcamentarios.search');
     Route::post('/orcamentario/delete',[AtosOrcamentariosController::class, 'delete'])->name('orcamentarios.delete');
+    Route::post('/orcamentario/edit',[AtosOrcamentariosController::class, 'edit'])->name('orcamentarios.edit');
 });
 
 
