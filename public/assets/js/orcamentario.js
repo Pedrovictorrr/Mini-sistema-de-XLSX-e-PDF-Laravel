@@ -56,7 +56,16 @@ function openModalEdit(eventData) {
     modal.style.display = "block";
     var item = JSON.parse(eventData.currentTarget.getAttribute('data-item'));
     var currentId = item.id;
-   
+   console.log(item)
+
+      document.getElementById("Numero1").placeholder = item.decretoalteracaoorcamentaria || "";
+    document.getElementById("dta1").placeholder = item.dataato || "";
+    document.getElementById("dtl1").placeholder = item.datapublicacao || "";
+    document.getElementById("ato1").value = item.tipoato || "";
+    document.getElementById("credito1").value = item.tipocredito || "";
+    document.getElementById("recurso1").value = item.tiporecurso || "";
+    document.getElementById("status1").value = item.situacao || "";
+    document.getElementById("Valor1").placeholder = item.valorcredito || "";
     // Crie um novo elemento input com o tipo "hidden"
     var inputElement = document.createElement("input");
     inputElement.type = "hidden";
