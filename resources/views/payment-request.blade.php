@@ -42,7 +42,6 @@
     <div class="modal fade modal-scroll" id="solicitacaoPagamentoModal" tabindex="-1" role="dialog"
         aria-labelledby="solicitacaoPagamentoModalTitle" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-            <input type="hidden" id="csrfToken" name="_token" value="{{ csrf_token() }}" />
             <div class="modal-content">
                 <div class="modal-header bg-primary text-white">
                     <h5 class="modal-title" id="exampleModalLongTitle">Solicitação de Pagamento</h5>
@@ -52,6 +51,7 @@
                 </div>
                 <div class="modal-body">
                     <form id="pagamentoForm">
+                        @csrf
                         <input type="hidden" name="empenho_id" value="{{ request('empenho_id') }}">
                         <div class="row">
                             <div class="col-sm-6 form-group">
@@ -158,8 +158,7 @@
                                 data-parent="#accordionExample">
                                 <div class="row p-4">
                                     <div class="col-sm-12">
-                                        <button class="btn btn-outline-secondary"
-                                            onclick="anexarDocumento('documento_fiscal')">Procurar Arquivo</button>
+                                        <button class="btn btn-outline-secondary" onclick="anexarDocumento('documento_fiscal')">Procurar Arquivo</button>
                                     </div>
                                     <div class="col-sm-12" id="documento_fiscal_anexo"></div>
                                 </div>
@@ -177,9 +176,7 @@
                                 data-parent="#accordionExample">
                                 <div class="row p-4">
                                     <div class="col-sm-12">
-                                        <button class="btn btn-outline-secondary"
-                                            onclick="anexarDocumento('certidao_negativa_debitos')">Procurar
-                                            Arquivo</button>
+                                        <button class="btn btn-outline-secondary" onclick="anexarDocumento('certidao_negativa_debitos')">Procurar Arquivo</button>
                                     </div>
                                     <div class="col-sm-12" id="certidao_negativa_debitos_anexo"></div>
                                 </div>
@@ -197,8 +194,7 @@
                                 data-parent="#accordionExample">
                                 <div class="row p-4">
                                     <div class="col-sm-12">
-                                        <button class="btn btn-outline-secondary"
-                                            onclick="anexarDocumento('certidao_trabalhista')">Procurar Arquivo</button>
+                                        <button class="btn btn-outline-secondary" onclick="anexarDocumento('certidao_trabalhista')">Procurar Arquivo</button>
                                     </div>
                                     <div class="col-sm-12" id="certidao_trabalhista_anexo"></div>
                                 </div>
@@ -216,8 +212,7 @@
                                 aria-labelledby="headingPrevidenciaSocial" data-parent="#accordionExample">
                                 <div class="row p-4">
                                     <div class="col-sm-12">
-                                        <button class="btn btn-outline-secondary"
-                                            onclick="anexarDocumento('guia_previdencia_social')">Procurar Arquivo</button>
+                                        <button class="btn btn-outline-secondary" onclick="anexarDocumento('guia_previdencia_social')">Procurar Arquivo</button>
                                     </div>
                                     <div class="col-sm-12" id="guia_previdencia_social_anexo"></div>
                                 </div>
@@ -235,8 +230,7 @@
                                 data-parent="#accordionExample">
                                 <div class="row p-4">
                                     <div class="col-sm-12">
-                                        <button class="btn btn-outline-secondary"
-                                            onclick="anexarDocumento('fgts')">Procurar Arquivo</button>
+                                        <button class="btn btn-outline-secondary" onclick="anexarDocumento('fgts')">Procurar Arquivo</button>
                                     </div>
                                     <div class="col-sm-12" id="fgts_anexo"></div>
                                 </div>
@@ -290,15 +284,13 @@
         var dataTable;
         var pagamentos;
         var pagamentoIdSelecionado;
-        var csrfToken;
+
         $(document).ready(function() {
             // inicializacao
             const currentURL = new URL(window.location.href);
             const queryParams = new URLSearchParams(currentURL.search);
             const empenho_id = {{ request('empenho_id') }};
             carregarPagamentos(empenho_id);
-            csrfToken = document.getElementById("csrfToken").value;
-            console.log(csrfToken)
 
             // eventos
             $('#pagamentoForm').on('submit', function(event) {
@@ -327,10 +319,7 @@
                 $.ajax({
                     url: '/api/empenho/pagamentos',
                     method: 'POST',
-                    data: {
-                        _token: csrfToken, // Enviar o token CSRF junto com os dados
-                        data
-                    },
+                    data: data,
                     processData: false,
                     contentType: false,
                     success: function() {
@@ -578,7 +567,7 @@
 
         function openAnexos(pagamento_id) {
             pagamentoIdSelecionado = pagamento_id;
-            alterarModalAnexos();
+            alterarModalAnexos();            
             $('#anexosModal').modal('show');
         }
 
@@ -595,10 +584,7 @@
                     $.ajax({
                         url: '/api/empenho/pagamentos/anexos',
                         method: 'POST',
-                        data:  {
-                        _token: csrfToken, // Enviar o token CSRF junto com os dados
-                        data
-                    },,
+                        data: data,
                         processData: false,
                         contentType: false,
                         success: function(pagamento) {
