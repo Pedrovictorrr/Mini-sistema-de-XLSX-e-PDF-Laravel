@@ -15,7 +15,7 @@ class EmpenhoSeeder extends Seeder
     {
         $userId = DB::table('users')->insertGetId([
             'name' => 'Cláudio Severino Erick Nunes',
-            'cpf' => '794.687.068-00',
+            'cpf' => '79468706800',
             'email' => 'claudio_nunes@redex.com.br',
             'role' => 3,
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',

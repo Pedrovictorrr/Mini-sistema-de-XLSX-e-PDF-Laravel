@@ -24,13 +24,6 @@
         </a>
     </li>
 
-    <li class="nav-item">
-        <a class="nav-link" href="/empenhos-emitidos">
-            <i class="fas fa-file-invoice-dollar"></i>
-            <span>Empenhos Emitidos</span>
-        </a>
-    </li>
-
     <!-- Divider -->
     <hr class="sidebar-divider">
 

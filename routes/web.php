@@ -17,10 +17,6 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::get('/empenhos-emitidos', fn () => view('commitments-issued'));
-Route::get('/empenho/{empenho_id}/pagamentos', fn () => view('payment-request'));
-Route::get('/solicitacao-pagamentos/info', fn () => view('payment-request-info'));
-
 Route::get('/', function () {
     return view('auth.login');
 });
@@ -44,5 +40,19 @@ Route::get('/usuarios', [UserController::class, 'index'])->middleware(['auth', '
 Route::get('/suporte-usuario', function () {
     return view('suporte-usuario');
 })->middleware(['auth', 'verified'])->name('suporte');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/empenhos-emitidos', fn () => view('commitments-issued'));
+    Route::get('/empenho/{empenho_id}/pagamentos', fn () => view('payment-request'));
+    Route::get('/solicitacao-pagamentos/info', fn () => view('payment-request-info'));
+    
+    Route::prefix('api')->group(function () {
+        Route::get('empenhos', [App\Http\Controllers\EmpenhoController::class, 'index']);
+        Route::get('empenho/{empenho_id}/pagamentos', [App\Http\Controllers\EmpenhoController::class, 'showPagamentos']);
+        Route::post('empenho/pagamentos', [App\Http\Controllers\EmpenhoController::class, 'storePagamento']);
+        Route::post('empenho/pagamentos/anexos', [App\Http\Controllers\EmpenhoController::class, 'storeAnexos']);
+        Route::delete('empenho/pagamento/{pagamento_id}/anexo/{anexo_name}', [App\Http\Controllers\EmpenhoController::class, 'deleteAnexo']);    
+    });
+});
 
 require __DIR__.'/auth.php';

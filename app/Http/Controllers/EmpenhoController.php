@@ -5,11 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Empenho;
 use App\Models\EmpenhoPagamento;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class EmpenhoController extends Controller
 {
-    private $userId = 1;
-
     public function index()
     {
         $empenhos = Empenho::select('empenhos.*')
@@ -26,7 +25,7 @@ class EmpenhoController extends Controller
 
     public function showPagamentos($empenho_id)
     {
-        $empenho = Empenho::where('user_id', $this->userId)
+        $empenho = Empenho::where('user_id', Auth::id())
             ->where('id', $empenho_id)
             ->firstOrFail();
 
